@@ -12,9 +12,9 @@ namespace SIMP
         public List<Point> verticies { get; set; }
         public Point Position { get; set; }
 
-        public Shape(List<Point> verts, Point pos)
+        public Shape(List<Point> verts)
         {
-            Position = pos;
+            Position = new Point();
             verticies = verts;
         }
 
@@ -23,6 +23,18 @@ namespace SIMP
             var pointfs = from v in verticies
                           select (v + Position).PointF;
             field.DrawClosedCurve(pen, pointfs.ToArray());
+        }
+
+        public void Select()
+        {
+            for (int i = 0; i < verticies.Count; i++)
+                verticies[i].Selected = true;
+        }
+
+        public void Unselect()
+        {
+            for (int i = 0; i < verticies.Count; i++)
+                verticies[i].Selected = false;
         }
     }
 }

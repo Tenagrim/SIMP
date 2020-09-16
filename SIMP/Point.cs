@@ -13,26 +13,32 @@ namespace SIMP
         public int x;
         public int y;
         public int state;
-        public bool selected;
-        public PointF PointF{ get { return new PointF((float)x, (float)y); } }
+        public bool Selected { get; set; }
+        public PointF PointF { get { return new PointF((float)x, (float)y); } }
 
+        public Point(int x, int y, bool selected) : this(x, y)
+        {
+            this.state = 0;
+            Selected = selected;
+        }
         public Point(int x, int y, int state) : this(x, y)
         {
             this.state = state;
+            Selected = false;
         }
         public Point(int x, int y)
         {
             this.x = x;
             this.y = y;
             state = 0;
-            selected = false; 
+            Selected = false;
         }
         public Point()
         {
             x = 0;
             y = 0;
             state = 0;
-            selected = false;
+            Selected = false;
         }
 
         public Point(Point re)
@@ -40,13 +46,26 @@ namespace SIMP
             x = re.x;
             y = re.y;
             state = re.state;
-            selected = false;
+            Selected = false;
         }
 
-        public void Display(Graphics field)
+        public bool IsInRect(Point a, Point b)
         {
+            return x >= Math.Min(a.x, b.x) && x <= Math.Max(a.x, b.x) && y >= Math.Min(a.y, b.y) && y <= Math.Max(a.y, b.y);
+        }
+
+        public void Select(Point a, Point b)
+        {
+            if (IsInRect(a, b))
+                Selected = true;
+        }
+
+        public void Draw(Graphics field)
+        {
+            if (!Selected) return;
+
             field.FillRectangle(Brushes.White, x - 3, y - 3, 7, 7);
-            field.FillRectangle(Brushes.Black, x-1 , y-1 , 3, 3);
+            field.FillRectangle(Brushes.Black, x - 1, y - 1, 3, 3);
         }
 
         public static List<Point> ToList(Point a, Point b)
