@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SIMP
 {
-    class Rectangle
+    class Rectangle 
     {
     }
 }

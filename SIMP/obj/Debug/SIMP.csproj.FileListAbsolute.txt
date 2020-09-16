@@ -1,0 +1,10 @@
+C:\Projects\SIMP\SIMP\obj\Debug\SIMP.csprojAssemblyReference.cache
+C:\Projects\SIMP\SIMP\obj\Debug\SIMP.Form1.resources
+C:\Projects\SIMP\SIMP\obj\Debug\SIMP.Properties.Resources.resources
+C:\Projects\SIMP\SIMP\obj\Debug\SIMP.csproj.GenerateResource.cache
+C:\Projects\SIMP\SIMP\obj\Debug\SIMP.csproj.CoreCompileInputs.cache
+C:\Projects\SIMP\SIMP\bin\Debug\SIMP.exe.config
+C:\Projects\SIMP\SIMP\bin\Debug\SIMP.exe
+C:\Projects\SIMP\SIMP\bin\Debug\SIMP.pdb
+C:\Projects\SIMP\SIMP\obj\Debug\SIMP.exe
+C:\Projects\SIMP\SIMP\obj\Debug\SIMP.pdb

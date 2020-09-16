@@ -58,6 +58,7 @@
             this.main_viewport.Size = new System.Drawing.Size(579, 458);
             this.main_viewport.TabIndex = 0;
             this.main_viewport.TabStop = false;
+            this.main_viewport.MouseClick += new System.Windows.Forms.MouseEventHandler(this.main_viewport_MouseClick);
             // 
             // Form1
             // 
@@ -69,6 +70,7 @@
             this.Name = "Form1";
             this.Text = "SIMP";
             this.Shown += new System.EventHandler(this.Form1_Shown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.central_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.main_viewport)).EndInit();
             this.ResumeLayout(false);
