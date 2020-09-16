@@ -24,7 +24,8 @@ namespace SIMP
         move,
         pen,
         line,
-        shape
+        shape,
+        formula
     }
     public partial class Form1 : Form
     {
@@ -165,6 +166,7 @@ namespace SIMP
             b_tool_select.Text = "Select _";
             b_tool_move.Text = "Move _";
             b_tool_line.Text = "Line _";
+            button4.Text = "Formula _";
         }
 
         private void b_tool_select_Click(object sender, EventArgs e)
@@ -188,6 +190,12 @@ namespace SIMP
             b_tool_line.Text = "Line ";
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            tool = Tool.formula;
+            UnselectTools();
+            button4.Text = "Formula ";
+        }
         private void main_viewport_MouseDown(object sender, MouseEventArgs e)
         {
             if (state == State.idle && tool == Tool.select)
@@ -199,6 +207,18 @@ namespace SIMP
             {
                 mouse_start_pos = new Point(e.X, e.Y);
                 state = State.move;
+            }
+            else if (state == State.idle && tool == Tool.formula)
+            {
+                mouse_start_pos = new Point(e.X, e.Y);
+                Shape s = document.GetShape(mouse_start_pos);
+                Line l = s== null? null: s as Line;
+                if (l != null )
+                {
+                    document.UnselectAll();
+                    l.Select();
+                    label1.Text = l.Formula;
+                }
             }
         }
 
@@ -252,5 +272,6 @@ namespace SIMP
             document.UnselectAll();
             Display();
         }
+
     }
 }

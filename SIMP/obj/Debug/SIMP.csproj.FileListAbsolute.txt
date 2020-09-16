@@ -8,3 +8,12 @@ C:\Projects\SIMP\SIMP\bin\Debug\SIMP.exe
 C:\Projects\SIMP\SIMP\bin\Debug\SIMP.pdb
 C:\Projects\SIMP\SIMP\obj\Debug\SIMP.exe
 C:\Projects\SIMP\SIMP\obj\Debug\SIMP.pdb
+T:\Projects\VisualStudio\SIMP\SIMP\bin\Debug\SIMP.exe.config
+T:\Projects\VisualStudio\SIMP\SIMP\bin\Debug\SIMP.exe
+T:\Projects\VisualStudio\SIMP\SIMP\bin\Debug\SIMP.pdb
+T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.csprojAssemblyReference.cache
+T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.Form1.resources
+T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.Properties.Resources.resources
+T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.csproj.GenerateResource.cache
+T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.exe
+T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.pdb

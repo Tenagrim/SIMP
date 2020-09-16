@@ -45,6 +45,15 @@ namespace SIMP
             shapes.Add(shape);
         }
 
+        public Shape GetShape(Point a)
+        {
+            foreach (var s in shapes)
+                foreach (var v in s.verticies)
+                    if (Point.Dist(a, v) <= 5)
+                        return s;
+            return null;
+        }
+
         public void Display(Graphics field, Pen pen)
         {
             foreach (var s in shapes)

@@ -31,7 +31,7 @@ namespace SIMP
 
         public void SelectPoints(Point a, Point b)
         {
-            CurrentLayer.SelectPoints(a,b);
+            CurrentLayer.SelectPoints(a, b);
         }
         public void Unselect()
         {
@@ -41,6 +41,11 @@ namespace SIMP
         {
             foreach (var l in layers)
                 l.Unselect();
+        }
+
+        public Shape GetShape(Point a)
+        {
+            return CurrentLayer.GetShape(a);
         }
 
         public void SetCurrentLayer(int n)
