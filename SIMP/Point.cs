@@ -60,6 +60,12 @@ namespace SIMP
                 Selected = selecting;
         }
 
+        public void Select(Point a, bool selecting = true)
+        {
+            if (Point.Dist(a, this) <= 5)
+                Selected = selecting;
+        }
+
         public void Draw(Graphics field)
         {
             if (Selected)

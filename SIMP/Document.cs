@@ -35,10 +35,18 @@ namespace SIMP
         {
             CurrentLayer.SelectPoints(a, b, selecting);
         }
+        public void SelectPoints(Point a,  bool selecting)
+        {
+            CurrentLayer.SelectPoints(a,  selecting);
+        }
 
         public void SelectShapes(Point a, Point b, bool selecting)
         {
             CurrentLayer.SelectShapes(a, b, selecting);
+        }
+        public void SelectShapes(Point a,  bool selecting)
+        {
+            CurrentLayer.SelectShapes(a, selecting);
         }
         public void Unselect()
         {
@@ -53,6 +61,11 @@ namespace SIMP
         public void SelectAll()
         {
             CurrentLayer.SelectAll();
+        }
+
+        public bool DeleteSelected()
+        {
+           return CurrentLayer.DeleteSelected();
         }
 
         public Shape GetShape(Point a)
@@ -70,7 +83,9 @@ namespace SIMP
             if (TempPoints.Count == 0)
                 return;
             System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.White, 2.0F);
+            pen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDotDot;
             Shape.DrawAsShape(field, TempPoints, pen);
+            pen.Dispose();
         }
 
         public void AddShape(bool is_path = false)

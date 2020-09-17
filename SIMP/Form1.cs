@@ -24,6 +24,7 @@ namespace SIMP
     {
         none,
         select,
+        pointer,
         move,
         pen,
         line,
@@ -129,22 +130,10 @@ namespace SIMP
             document.SetCurrentLayer(lb_layers.SelectedIndex);
             cb_layer_visible.Checked = document.CurrentLayer.Visible;
         }
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            switch (keyData)
-            {
-                case Keys.Enter:
-                    if (shape.Count != 0 && tool == Tool.shape)
-                    {
-                        document.CurrentLayer.AddShape(new Shape(shape));
-                        shape.Clear();
-                    }
-                    Display();
-                    break;
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
-        }
+        //protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        //{
+        //    return base.ProcessCmdKey(ref msg, keyData);
+        //}
 
         private void DrawSelectRect(int x, int y, int width, int height)
         {
@@ -184,6 +173,7 @@ namespace SIMP
             b_tool_line.Text = "Line _";
             button4.Text = "Formula _";
             b_tool_shape.Text = "Shape _";
+            b_tool_pointer.Text = "Pointer _";
         }
 
         private void b_tool_select_Click(object sender, EventArgs e)
@@ -220,6 +210,12 @@ namespace SIMP
             tool = Tool.shape;
             b_tool_shape.Text = "Shape ";
         }
+        private void b_tool_pointer_Click(object sender, EventArgs e)
+        {
+            UnselectTools();
+            tool = Tool.pointer;
+            b_tool_pointer.Text = "Pointer ";
+        }
         private void main_viewport_MouseDown(object sender, MouseEventArgs e)
         {
             if (state == State.idle && tool == Tool.select)
@@ -253,6 +249,21 @@ namespace SIMP
                 else
                     document.TempPoints.Add(new Point(e.X, e.Y, true));
             }
+            else if (tool == Tool.pointer)
+
+            {
+                if (!keyboard.IsKeyDown(17)) //CTRL
+                    document.UnselectAll();
+                state = radioButton1.Checked ? State.select_points : State.select_shapes;
+                bool selecting = !keyboard.IsKeyDown(18); //ALT
+                if (state == State.select_points)
+                    document.SelectPoints(new Point(e.X, e.Y), selecting);
+                else if (state == State.select_shapes)
+                    document.SelectShapes(new Point(e.X, e.Y), selecting);
+                Display();
+                mouse_start_pos = new Point(e.X, e.Y);
+                state = State.move;
+            }
         }
 
         private void main_viewport_MouseMove(object sender, MouseEventArgs e)
@@ -263,7 +274,7 @@ namespace SIMP
                 DrawSelectRect(mouse_start_pos.x, mouse_start_pos.y, e.X - mouse_start_pos.x, e.Y - mouse_start_pos.y);
                 main_viewport.Refresh();
             }
-            else if (state == State.move && tool == Tool.move)
+            else if (state == State.move && (tool == Tool.move || tool == Tool.pointer))
             {
                 int off_x;
                 int off_y;
@@ -298,7 +309,12 @@ namespace SIMP
                 Display();
                 state = State.idle;
             }
-            else if (state == State.move && tool == Tool.move)
+            else if (tool == Tool.pointer)
+            {
+
+                state = State.idle;
+            }
+            else if (state == State.move && (tool == Tool.move))
             {
                 state = State.idle;
             }
@@ -327,9 +343,15 @@ namespace SIMP
             }
 
 
-            if (e.KeyCode == Keys.Enter && tool == Tool.shape)
+            if (e.KeyCode == Keys.Space && tool == Tool.shape)
             {
                 document.AddShape();
+                Display();
+            }
+            if (e.KeyCode == Keys.Delete)
+            {
+                document.DeleteSelected();
+                Display();
             }
         }
 
@@ -375,6 +397,18 @@ namespace SIMP
                 */
         }
 
+        private void deleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            document.DeleteSelected();
+            Display();
+        }
 
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string s = saveFileDialog1.FileName;
+            }
+        }
     }
 }

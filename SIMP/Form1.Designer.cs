@@ -52,6 +52,11 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.b_tool_shape = new System.Windows.Forms.Button();
+            this.b_tool_pointer = new System.Windows.Forms.Button();
+            this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.right_panel.SuspendLayout();
             this.central_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.main_viewport)).BeginInit();
@@ -61,6 +66,7 @@
             // 
             // right_panel
             // 
+            this.right_panel.Controls.Add(this.b_tool_pointer);
             this.right_panel.Controls.Add(this.b_tool_shape);
             this.right_panel.Controls.Add(this.groupBox1);
             this.right_panel.Controls.Add(this.button4);
@@ -109,7 +115,7 @@
             // 
             // b_tool_move
             // 
-            this.b_tool_move.Location = new System.Drawing.Point(15, 91);
+            this.b_tool_move.Location = new System.Drawing.Point(172, 103);
             this.b_tool_move.Name = "b_tool_move";
             this.b_tool_move.Size = new System.Drawing.Size(75, 23);
             this.b_tool_move.TabIndex = 6;
@@ -119,7 +125,7 @@
             // 
             // b_tool_select
             // 
-            this.b_tool_select.Location = new System.Drawing.Point(15, 15);
+            this.b_tool_select.Location = new System.Drawing.Point(15, 5);
             this.b_tool_select.Name = "b_tool_select";
             this.b_tool_select.Size = new System.Drawing.Size(75, 23);
             this.b_tool_select.TabIndex = 5;
@@ -211,7 +217,9 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripMenuItem});
+            this.newToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
+            this.openToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
             this.toolStripMenuItem1.Text = "File";
@@ -226,7 +234,8 @@
             // 
             this.selectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem,
-            this.unselectAllToolStripMenuItem});
+            this.unselectAllToolStripMenuItem,
+            this.deleteSelectedToolStripMenuItem});
             this.selectionToolStripMenuItem.Name = "selectionToolStripMenuItem";
             this.selectionToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.selectionToolStripMenuItem.Text = "Selection";
@@ -296,6 +305,36 @@
             this.b_tool_shape.UseVisualStyleBackColor = true;
             this.b_tool_shape.Click += new System.EventHandler(this.b_tool_shape_Click);
             // 
+            // b_tool_pointer
+            // 
+            this.b_tool_pointer.Location = new System.Drawing.Point(15, 34);
+            this.b_tool_pointer.Name = "b_tool_pointer";
+            this.b_tool_pointer.Size = new System.Drawing.Size(75, 23);
+            this.b_tool_pointer.TabIndex = 13;
+            this.b_tool_pointer.Text = "Pointer _";
+            this.b_tool_pointer.UseVisualStyleBackColor = true;
+            this.b_tool_pointer.Click += new System.EventHandler(this.b_tool_pointer_Click);
+            // 
+            // deleteSelectedToolStripMenuItem
+            // 
+            this.deleteSelectedToolStripMenuItem.Name = "deleteSelectedToolStripMenuItem";
+            this.deleteSelectedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteSelectedToolStripMenuItem.Text = "Delete selected";
+            this.deleteSelectedToolStripMenuItem.Click += new System.EventHandler(this.deleteSelectedToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Text = "Save as";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -351,6 +390,11 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Button b_tool_shape;
+        private System.Windows.Forms.Button b_tool_pointer;
+        private System.Windows.Forms.ToolStripMenuItem deleteSelectedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

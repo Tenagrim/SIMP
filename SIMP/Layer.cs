@@ -71,6 +71,12 @@ namespace SIMP
                 foreach (var p in s.verticies)
                     p.Select(a, b, selecting);
         }
+        public void SelectPoints(Point a, bool selecting)
+        {
+            foreach (var s in shapes)
+                foreach (var p in s.verticies)
+                    p.Select(a, selecting);
+        }
 
         public void SelectShapes(Point a, Point b, bool selecting)
         {
@@ -82,7 +88,17 @@ namespace SIMP
                 }
         }
 
-            public void Unselect()
+        public void SelectShapes(Point a, bool selecting)
+        {
+            foreach (var s in shapes)
+                foreach (var p in s.verticies)
+                {
+                    if(Point.Dist(p,a) <= 5 && s.Selected != selecting)
+                        s.Select(selecting);
+                }
+        }
+
+        public void Unselect()
         {
             foreach (var s in shapes)
                 s.Unselect();
@@ -92,6 +108,23 @@ namespace SIMP
         {
             foreach (var s in shapes)
                 s.Select();
+        }
+
+        public bool DeleteSelected()
+        {
+            bool f;
+            do
+            {
+                f = false;
+                foreach (var s in shapes)
+                    if (s.Selected)
+                    {
+                        shapes.Remove(s);
+                        f = true;
+                        break;
+                    }
+            } while (f);
+            return f;
         }
 
         public override string ToString()
