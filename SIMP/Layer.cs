@@ -10,13 +10,17 @@ namespace SIMP
     class Layer
     {
         public List<Shape> Shapes { get { return shapes; } }
-        public List<Point> SelectedPoints { get {
+        public List<Point> SelectedPoints
+        {
+            get
+            {
                 var points = from s in shapes
                              from p in s.verticies
                              where p.Selected
                              select p;
                 return points.ToList();
-            } }
+            }
+        }
         public bool Visible { get; set; }
         public string Name { get; set; }
 
@@ -43,6 +47,7 @@ namespace SIMP
         public void AddShape(Shape shape)
         {
             shapes.Add(shape);
+            shape.Unselect();
         }
 
         public Shape GetShape(Point a)
@@ -57,20 +62,36 @@ namespace SIMP
         public void Display(Graphics field, Pen pen)
         {
             foreach (var s in shapes)
-                s.Draw(field, pen);
+                s.Draw(field);
         }
 
-        public void SelectPoints(Point a, Point b )
+        public void SelectPoints(Point a, Point b, bool selecting)
         {
             foreach (var s in shapes)
                 foreach (var p in s.verticies)
-                    p.Select(a, b);
+                    p.Select(a, b, selecting);
         }
 
-        public void Unselect()
+        public void SelectShapes(Point a, Point b, bool selecting)
+        {
+            foreach (var s in shapes)
+                foreach (var p in s.verticies)
+                {
+                    if (p.IsInRect(a, b) && s.Selected != selecting)
+                        s.Select(selecting);
+                }
+        }
+
+            public void Unselect()
         {
             foreach (var s in shapes)
                 s.Unselect();
+        }
+
+        public void SelectAll()
+        {
+            foreach (var s in shapes)
+                s.Select();
         }
 
         public override string ToString()

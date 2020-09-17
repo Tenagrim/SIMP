@@ -14,10 +14,10 @@ namespace SIMP
         public Line(Point a, Point b) : base(Point.ToList(a, b))
         {
             Position = new Point(Math.Min(a.x, b.x), Math.Min(a.y, b.y));
-            CalcForm();
+            //CalcForm();
         }
 
-        public override void Draw(System.Drawing.Graphics field, System.Drawing.Pen pen)
+        public override void Draw(System.Drawing.Graphics field)
         {
             field.DrawLine(pen, verticies[0].x, verticies[0].y, verticies[1].x, verticies[1].y);
             verticies[0].Draw(field);

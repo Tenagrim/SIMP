@@ -11,8 +11,9 @@ namespace SIMP
         public List<Layer> Layers { get { return layers; } }
         public Layer CurrentLayer { get { return layers[current_layer]; } }
         public int CurrentLayerIndex { get { return current_layer; } }
-
         public List<Point> SelectedPoints { get { return CurrentLayer.SelectedPoints; } }
+
+        public List<Point> TempPoints { get; set; }
 
         private int current_layer;
         private List<Layer> layers;
@@ -21,6 +22,7 @@ namespace SIMP
         {
             layers = new List<Layer>();
             layers.Add(new Layer(1));
+            TempPoints = new List<Point>();
             current_layer = 0;
         }
         public void NewLayer()
@@ -29,9 +31,14 @@ namespace SIMP
             current_layer = layers.Count - 1;
         }
 
-        public void SelectPoints(Point a, Point b)
+        public void SelectPoints(Point a, Point b, bool selecting)
         {
-            CurrentLayer.SelectPoints(a, b);
+            CurrentLayer.SelectPoints(a, b, selecting);
+        }
+
+        public void SelectShapes(Point a, Point b, bool selecting)
+        {
+            CurrentLayer.SelectShapes(a, b, selecting);
         }
         public void Unselect()
         {
@@ -41,6 +48,11 @@ namespace SIMP
         {
             foreach (var l in layers)
                 l.Unselect();
+        }
+
+        public void SelectAll()
+        {
+            CurrentLayer.SelectAll();
         }
 
         public Shape GetShape(Point a)
@@ -53,11 +65,33 @@ namespace SIMP
             current_layer = n < layers.Count && n >= 0 ? n : current_layer;
         }
 
+        public void DisplayTempPoints(System.Drawing.Graphics field)
+        {
+            if (TempPoints.Count == 0)
+                return;
+            System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.White, 2.0F);
+            Shape.DrawAsShape(field, TempPoints, pen);
+        }
+
+        public void AddShape(bool is_path = false)
+        {
+            if (TempPoints.Count == 0)
+                return;
+            CurrentLayer.AddShape(new Shape(TempPoints, is_path));
+            TempPoints = new List<Point>();
+        }
+
         public void Display(System.Drawing.Graphics field, System.Drawing.Pen pen)
         {
             foreach (var l in layers)
                 if (l.Visible)
                     l.Display(field, pen);
+            DisplayTempPoints(field);
+        }
+
+        public void ClearTempVerticies()
+        {
+            TempPoints.Clear();
         }
     }
 }

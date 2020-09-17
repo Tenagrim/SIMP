@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace SIMP
 {
@@ -15,6 +16,8 @@ namespace SIMP
     {
         idle,
         draw_shape,
+        select_points,
+        select_shapes,
         move
     }
     enum Tool
@@ -27,6 +30,9 @@ namespace SIMP
         shape,
         formula
     }
+
+    delegate void procedure();
+
     public partial class Form1 : Form
     {
         private Graphics main_graphics;
@@ -34,11 +40,14 @@ namespace SIMP
         private Tool tool;
         private Document document;
         private Pen pen;
+        private Keyboard keyboard;
 
         private List<Point> shape;
 
         private Point mouse_start_pos;
         private Point mouse_end_pos;
+
+        private event procedure ToolChanged;
 
         public Form1()
         {
@@ -49,6 +58,7 @@ namespace SIMP
             tool = Tool.none;
             shape = new List<Point>();
             pen = new Pen(Color.White, 2.0F);
+            keyboard = new Keyboard();
 
             document = new Document();
         }
@@ -150,7 +160,7 @@ namespace SIMP
                 height = -height;
                 y -= height;
             }
-            main_graphics.DrawRectangle(select_pen, x, y, width , height );
+            main_graphics.DrawRectangle(select_pen, x, y, width, height);
             select_pen.Dispose();
         }
 
@@ -163,10 +173,17 @@ namespace SIMP
 
         private void UnselectTools()
         {
+            if (document.TempPoints.Count != 0)
+            {
+                document.ClearTempVerticies();
+                Display();
+            }
+
             b_tool_select.Text = "Select _";
             b_tool_move.Text = "Move _";
             b_tool_line.Text = "Line _";
             button4.Text = "Formula _";
+            b_tool_shape.Text = "Shape _";
         }
 
         private void b_tool_select_Click(object sender, EventArgs e)
@@ -196,12 +213,21 @@ namespace SIMP
             UnselectTools();
             button4.Text = "Formula ";
         }
+
+        private void b_tool_shape_Click(object sender, EventArgs e)
+        {
+            UnselectTools();
+            tool = Tool.shape;
+            b_tool_shape.Text = "Shape ";
+        }
         private void main_viewport_MouseDown(object sender, MouseEventArgs e)
         {
             if (state == State.idle && tool == Tool.select)
             {
+                if (!keyboard.IsKeyDown(17)) //CTRL
+                    document.UnselectAll();
                 mouse_start_pos = new Point(e.X, e.Y);
-                state = State.draw_shape;
+                state = radioButton1.Checked ? State.select_points : State.select_shapes;
             }
             else if (state == State.idle && tool == Tool.move)
             {
@@ -212,19 +238,26 @@ namespace SIMP
             {
                 mouse_start_pos = new Point(e.X, e.Y);
                 Shape s = document.GetShape(mouse_start_pos);
-                Line l = s== null? null: s as Line;
-                if (l != null )
+                Line l = s == null ? null : s as Line;
+                if (l != null)
                 {
                     document.UnselectAll();
                     l.Select();
                     label1.Text = l.Formula;
                 }
             }
+            else if (tool == Tool.shape)
+            {
+                if (document.TempPoints.Count >= 3 && Point.Dist(document.TempPoints[0], new Point(e.X, e.Y)) <= 5)
+                    document.AddShape(true);
+                else
+                    document.TempPoints.Add(new Point(e.X, e.Y, true));
+            }
         }
 
         private void main_viewport_MouseMove(object sender, MouseEventArgs e)
         {
-            if (state == State.draw_shape && tool == Tool.select)
+            if (tool == Tool.select && (state == State.select_points || state == State.select_shapes))
             {
                 Update_view();
                 DrawSelectRect(mouse_start_pos.x, mouse_start_pos.y, e.X - mouse_start_pos.x, e.Y - mouse_start_pos.y);
@@ -254,10 +287,14 @@ namespace SIMP
 
         private void main_viewport_MouseUp(object sender, MouseEventArgs e)
         {
-            if (state == State.draw_shape && tool == Tool.select)
+            if (tool == Tool.select)
             {
                 mouse_end_pos = new Point(e.X, e.Y);
-                document.SelectPoints(mouse_start_pos, mouse_end_pos);
+                bool selecting = !keyboard.IsKeyDown(18); //ALT
+                if (state == State.select_points)
+                    document.SelectPoints(mouse_start_pos, mouse_end_pos, selecting);
+                else if (state == State.select_shapes)
+                    document.SelectShapes(mouse_start_pos, mouse_end_pos, selecting);
                 Display();
                 state = State.idle;
             }
@@ -272,6 +309,72 @@ namespace SIMP
             document.UnselectAll();
             Display();
         }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            keyboard.KeyDown(e.KeyValue);
+
+            if (keyboard.IsKeysDown((int)(Keys.ControlKey), (int)Keys.D))
+            {
+                document.UnselectAll();
+                Display();
+            }
+            if (keyboard.IsKeysDown((int)(Keys.ControlKey), (int)Keys.A))
+            {
+                document.SelectAll();
+                Display();
+            }
+
+
+            if (e.KeyCode == Keys.Enter && tool == Tool.shape)
+            {
+                document.AddShape();
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            keyboard.KeyUp(e.KeyValue);
+        }
+
+        private void unselectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            document.UnselectAll();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            document = new Document();
+            Display();
+        }
+
+        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            document.SelectAll();
+            Display();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            /*
+            if (radioButton1.Checked)
+                state = State.select_points;
+            else
+                state = State.select_shapes;
+                */
+        }
+
 
     }
 }
