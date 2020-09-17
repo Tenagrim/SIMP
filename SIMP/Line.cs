@@ -13,7 +13,7 @@ namespace SIMP
         public string Formula { get { return CalcForm(); } }
         public Line(Point a, Point b) : base(Point.ToList(a, b))
         {
-            Position = new Point(Math.Min(a.x, b.x), Math.Min(a.y, b.y));
+            //Position = new Point(Math.Min(a.x, b.x), Math.Min(a.y, b.y));
             //CalcForm();
         }
 

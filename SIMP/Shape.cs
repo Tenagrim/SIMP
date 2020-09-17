@@ -10,11 +10,10 @@ namespace SIMP
     class Shape
     {
         public List<Point> verticies { get; set; }
-        public Point Position { get; set; }
+        public Point Center { get { return GetCenter(verticies); } }
         public Point Begin { get { return verticies[0]; } }
-
-        public System.Drawing.Pen pen { get; set; }
-
+        public Matrix Matrix { get { return GetMatrix(); } }
+        public Pen pen { get; set; }
         public bool Selected { get { return selected; }  }
 
         private bool is_path;
@@ -26,7 +25,6 @@ namespace SIMP
 
         public Shape(List<Point> verts)
         {
-            Position = new Point();
             verticies = verts;
             is_path = false;
             selected = false;
@@ -72,6 +70,49 @@ namespace SIMP
             selected = false;
             for (int i = 0; i < verticies.Count; i++)
                 verticies[i].Selected = false;
+        }
+
+        private Matrix GetMatrix()
+        {
+            float[,] res = new float[verticies.Count, 3];
+            for (int i = 0; i < verticies.Count; i++)
+            {
+                res[i, 0] = verticies[i].x;
+                res[i, 1] = verticies[i].y;
+                res[i, 2] = verticies[i].z;
+            }
+            return new Matrix(res);
+        }
+
+
+
+        public void Scale(float a, float d)
+        {
+            Transform(verticies, Matrix.Scale(a, d));
+        }
+
+        public static Point GetCenter(List<Point> verticies)
+        {
+            var xs = from v in verticies
+                     select v.x;
+            var ys = from v in verticies
+                     select v.y;
+            return new Point(xs.Sum() / xs.Count(), ys.Sum() / ys.Count());
+        }
+
+        public static void Transform(List<Point> verticies, Matrix transform)
+        {
+            Matrix tr_matrix = new Matrix(verticies) * transform;
+
+            if (tr_matrix.Rows != verticies.Count || tr_matrix.Cols != 3)
+                throw new Exception("Invalid tranformation matrix");
+
+            for (int i = 0; i < tr_matrix.Rows; i++)
+            {
+                verticies[i].x = (int)tr_matrix._Matrix[i, 0];
+                verticies[i].y = (int)tr_matrix._Matrix[i, 1];
+                verticies[i].z = (int)tr_matrix._Matrix[i, 2];
+            }
         }
     }
 }

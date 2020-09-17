@@ -29,7 +29,9 @@ namespace SIMP
         pen,
         line,
         shape,
-        formula
+        formula,
+        scale,
+        rotate
     }
 
     delegate void procedure();
@@ -53,6 +55,7 @@ namespace SIMP
         public Form1()
         {
             InitializeComponent();
+            this.MouseWheel += new MouseEventHandler(Form1_MouseWheel);
             main_viewport.Image = new Bitmap(main_viewport.Width, main_viewport.Height);
             main_graphics = Graphics.FromImage(main_viewport.Image);
             state = State.idle;
@@ -135,7 +138,7 @@ namespace SIMP
         //    return base.ProcessCmdKey(ref msg, keyData);
         //}
 
-        private void DrawSelectRect(int x, int y, int width, int height)
+        private void DrawSelectRect(float x, float y, float width, float height)
         {
             Pen select_pen = new Pen(Color.White, 1.0F);
             select_pen.DashStyle = DashStyle.Dot;
@@ -174,6 +177,8 @@ namespace SIMP
             button4.Text = "Formula _";
             b_tool_shape.Text = "Shape _";
             b_tool_pointer.Text = "Pointer _";
+            button3.Text = "Scale _";
+            button5.Text = "Rotate _";
         }
 
         private void b_tool_select_Click(object sender, EventArgs e)
@@ -216,6 +221,21 @@ namespace SIMP
             tool = Tool.pointer;
             b_tool_pointer.Text = "Pointer ";
         }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            UnselectTools();
+            tool = Tool.scale;
+            button3.Text = "Scale ";
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            UnselectTools();
+            tool = Tool.rotate;
+            button5.Text = "Rotate ";
+        }
+
         private void main_viewport_MouseDown(object sender, MouseEventArgs e)
         {
             if (state == State.idle && tool == Tool.select)
@@ -280,8 +300,8 @@ namespace SIMP
                 int off_y;
                 for (int i = 0; i < document.SelectedPoints.Count; i++)
                 {
-                    off_x = e.X - mouse_start_pos.x;
-                    off_y = e.Y - mouse_start_pos.y;
+                    off_x = e.X - (int)mouse_start_pos.x;
+                    off_y = e.Y - (int)mouse_start_pos.y;
 
                     document.SelectedPoints[i].x = document.SelectedPoints[i].x + off_x;
                     document.SelectedPoints[i].y = document.SelectedPoints[i].y + off_y;
@@ -402,13 +422,49 @@ namespace SIMP
             document.DeleteSelected();
             Display();
         }
-
+        private void SaveDocument()
+        {
+        
+        }
+        private void LoadDocument()
+        { 
+        
+        }
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string s = saveFileDialog1.FileName;
             }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Display();
+            document.center(main_graphics);
+            main_viewport.Refresh();
+        }
+
+        private void Form1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            switch (tool)
+            {
+                case Tool.scale:
+                    if (e.Delta > 0)
+                        document.ScaleSelected(1.1F, 1.1F);
+                    else
+                        document.ScaleSelected(0.9F, 0.9F);
+                    Display();
+                    break;
+                case Tool.rotate:
+                    if (e.Delta > 0)
+                        document.RotateSelected(0.1F);
+                    else
+                        document.RotateSelected(-0.1F);
+                    Display();
+                    break;
+            }
+
         }
     }
 }

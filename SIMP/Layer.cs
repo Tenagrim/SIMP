@@ -127,6 +127,43 @@ namespace SIMP
             return f;
         }
 
+        public bool ScaleSelected(float a, float d)
+        {
+            List<Point> points = SelectedPoints;
+            if (points.Count <= 1)
+                return false;
+
+            Point center1 = Shape.GetCenter(points);
+            Matrix scale = Matrix.Scale(a,d);
+            Shape.Transform(points, scale);
+            Point center2 = Shape.GetCenter(points);
+            Matrix translate = Matrix.Translate(center1.x - center2.x, center1.y - center2.y);
+            Shape.Transform(points, translate);
+            return true;
+        }
+
+        public void RotateSelected(float angle)
+        {
+            List<Point> points = SelectedPoints;
+            if (points.Count <= 1)
+                return;
+
+            Point center = Shape.GetCenter(points);
+            Matrix rotation = Matrix.Rotate(center, angle);
+            Shape.Transform(points, rotation);
+        }
+
+        public void center(Graphics f)
+        {
+            List<Point> points = SelectedPoints;
+            if (points.Count <= 1)
+                return;
+
+            Point center = Shape.GetCenter(points);
+            center.Select(center);
+            center.Draw(f);
+        }
+
         public override string ToString()
         {
             string res = $"{Name}  [{shapes.Count}]";

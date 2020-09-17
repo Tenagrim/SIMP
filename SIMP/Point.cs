@@ -10,8 +10,9 @@ namespace SIMP
     [Serializable]
     class Point
     {
-        public int x;
-        public int y;
+        public float x;
+        public float y;
+        public float z;
         public int state;
         public bool Selected { get; set; }
         public PointF PointF { get { return new PointF((float)x, (float)y); } }
@@ -19,15 +20,15 @@ namespace SIMP
 
 
 
-        public Point(int x, int y, bool selected) : this(x, y)
+        public Point(float x, float y, bool selected) : this(x, y)
         {
             Selected = selected;
         }
-        public Point(int x, int y, int state) : this(x, y)
+        public Point(float x, float y, int state) : this(x, y)
         {
             this.state = state;
         }
-        public Point(int x, int y) :this()
+        public Point(float x, float y) :this()
         {
             this.x = x;
             this.y = y;
@@ -36,6 +37,7 @@ namespace SIMP
         {
             x = 0;
             y = 0;
+            z = 1;
             state = 0;
             Selected = false;
             Parent = null;
@@ -119,5 +121,6 @@ namespace SIMP
         {
             return $"x = {x}  y = {y} ";
         }
+
     }
 }

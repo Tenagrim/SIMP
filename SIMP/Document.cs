@@ -68,6 +68,17 @@ namespace SIMP
            return CurrentLayer.DeleteSelected();
         }
 
+        public bool ScaleSelected(float a,float d)
+        {
+            CurrentLayer.ScaleSelected(a, d);
+            return true;
+        }
+
+        public void RotateSelected(float angle)
+        {
+            CurrentLayer.RotateSelected(angle);
+        }
+
         public Shape GetShape(Point a)
         {
             return CurrentLayer.GetShape(a);
@@ -107,6 +118,11 @@ namespace SIMP
         public void ClearTempVerticies()
         {
             TempPoints.Clear();
+        }
+
+        public void center(System.Drawing.Graphics f)
+        {
+            CurrentLayer.center(f);
         }
     }
 }
