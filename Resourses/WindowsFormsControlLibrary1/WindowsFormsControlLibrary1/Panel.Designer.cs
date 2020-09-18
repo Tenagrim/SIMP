@@ -71,7 +71,6 @@
             this.Controls.Add(this.label1);
             this.Name = "Panel";
             this.Size = new System.Drawing.Size(211, 43);
-            this.Click += new System.EventHandler(this.Panel_Click);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

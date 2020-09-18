@@ -17,3 +17,6 @@ T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.Properties.Resources.resources
 T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.csproj.GenerateResource.cache
 T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.exe
 T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.pdb
+T:\Projects\VisualStudio\SIMP\SIMP\bin\Debug\WindowsFormsControlLibrary1.dll
+T:\Projects\VisualStudio\SIMP\SIMP\bin\Debug\WindowsFormsControlLibrary1.pdb
+T:\Projects\VisualStudio\SIMP\SIMP\obj\Debug\SIMP.csproj.CopyComplete

@@ -13,15 +13,17 @@ namespace WindowsFormsControlLibrary1
     public partial class LayerPanel : Panel
     {
 
-        public LayerPanel(string name, int id) : this()
+        public LayerPanel(string name, DocumentStructureViewer sParent, int id) : this()
         {
             Name = name;
             this.id = id;
+            superParent = sParent;
         }
         public LayerPanel()
         {
             InitializeComponent();
             //ControlExtension.Draggable(this, true);
+            Parent = null;
         }
     }
 }

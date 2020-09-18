@@ -15,15 +15,15 @@ namespace WindowsFormsControlLibrary1
         //private delegate void OpenCloseFolderHandler(FolderPanel folder);
 
 
-        public List<FolderPanel> ChildFolders { get; set; }
-        public List<LayerPanel> ChildLayers{ get; set; }
-        public FolderPanel Parent { get { return parent; } }
-
+        public List<Panel> Childs { get; set; }
 
         public FolderPanel parent;
-        public bool IsOpened { get { return opened; } }
+        public bool IsOpened { get { return opened; } set { 
+                opened = value;
+                pictureBox1.Image = opened ? Properties.Resources.folder_opened : Properties.Resources.folder_closed;
+            } }
 
-        private DocumentStructureViewer superParent;
+
         private bool opened;
         public FolderPanel(string name, DocumentStructureViewer sParent, int id) : this()
         {
@@ -37,8 +37,8 @@ namespace WindowsFormsControlLibrary1
             pictureBox1.Image = Properties.Resources.folder_closed;
             opened = false;
             Name = "Folder";
-            ChildFolders = new List<FolderPanel>();
-            ChildLayers = new List<LayerPanel>();
+            Childs = new List<Panel>();
+            Parent = null;
             //ControlExtension.Draggable(this, true);
         }
         public void ChangeOpened()
@@ -47,10 +47,37 @@ namespace WindowsFormsControlLibrary1
             pictureBox1.Image = opened ? Properties.Resources.folder_opened : Properties.Resources.folder_closed;
             superParent.OpenFolder(this);
         }
-
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             ChangeOpened();
+        }
+
+        public void AddChilds(List<Panel> new_childs)
+        {
+            foreach (var c in new_childs)
+            {
+                c.RemoveMe();
+                Childs.Add(c);
+                c.Parent = this;
+                c.ChangeSelection();
+            }
+        }
+
+        public void RemoveChild(Panel child)
+        {
+            Childs.Remove(child);
+        }
+
+        public void HideChilds()
+        {
+            foreach (var c in Childs)
+            {
+                FolderPanel f = c as FolderPanel;
+
+                if (f != null && f.IsOpened)
+                    f.HideChilds();
+                c.Visible = false;
+            }
         }
     }
 }

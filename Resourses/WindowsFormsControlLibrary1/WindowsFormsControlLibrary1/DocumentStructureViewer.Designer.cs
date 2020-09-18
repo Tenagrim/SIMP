@@ -80,6 +80,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(220, 282);
             this.panel1.TabIndex = 7;
+            this.panel1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDoubleClick);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
             this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             // 
@@ -94,6 +95,8 @@
             this.Controls.Add(this.add_folder);
             this.Name = "DocumentStructureViewer";
             this.Size = new System.Drawing.Size(227, 331);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DocumentStructureViewer_MouseDown);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DocumentStructureViewer_MouseUp);
             this.ResumeLayout(false);
 
         }
@@ -104,6 +107,5 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Panel panel1;
-        private Panel userControl21;
     }
 }

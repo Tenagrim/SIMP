@@ -80,8 +80,8 @@ namespace SIMP
 
             foreach (var p in shape)
                 p.Draw(main_graphics);
-            if (lb_layers.SelectedIndex != -1)
-                lb_layers.Items[lb_layers.SelectedIndex] = document.CurrentLayer.ToString();
+           // if (lb_layers.SelectedIndex != -1)
+           //    lb_layers.Items[lb_layers.SelectedIndex] = document.CurrentLayer.ToString();
         }
 
         public void Display()
@@ -466,6 +466,11 @@ namespace SIMP
                     Display();
                     break;
             }
+
+        }
+
+        private void right_panel_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }

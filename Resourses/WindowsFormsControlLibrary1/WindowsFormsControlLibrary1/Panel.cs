@@ -14,13 +14,17 @@ namespace WindowsFormsControlLibrary1
     {
 
         public int ID { get { return id; } }
-        public string Name { get { return Name; } set { label1.Text = value; } }
-        
-        
+        public string Name { get { return name; } set { label1.Text = value; name = value; } }
+
+        public FolderPanel Parent { get { return parent; } set { parent = value; } }
+
         public bool IsVisible { get { return checkBox1.Checked; } }
         public bool IsSelected { get { return selected; } }
 
         private bool selected;
+        private FolderPanel parent;
+        protected string name;
+        protected DocumentStructureViewer superParent;
 
         protected int id;
 
@@ -42,14 +46,26 @@ namespace WindowsFormsControlLibrary1
             BackColor = selected ? SystemColors.ControlDark : SystemColors.Control;
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        public void RemoveMe()
         {
-
+            if (parent != null)
+                parent.RemoveChild(this);
         }
-
-        private void Panel_Click(object sender, EventArgs e)
+        
+        protected override void WndProc(ref Message m)
         {
-            ChangeSelection();
+            const int WM_NCHITTEST = 0x0084;
+            const int HTTRANSPARENT = (-1);
+
+            if (m.Msg == WM_NCHITTEST)
+            {
+                m.Result = (IntPtr)HTTRANSPARENT;
+            }
+            else
+            {
+                base.WndProc(ref m);
+            }
         }
+        
     }
 }
