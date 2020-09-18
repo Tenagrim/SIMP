@@ -450,6 +450,7 @@ namespace SIMP
             switch (tool)
             {
                 case Tool.scale:
+                   // mouse_start_pos = new Point(e.X, e.Y);
                     if (e.Delta > 0)
                         document.ScaleSelected(1.1F, 1.1F);
                     else
@@ -457,6 +458,7 @@ namespace SIMP
                     Display();
                     break;
                 case Tool.rotate:
+                    //mouse_start_pos = new Point(e.X, e.Y);
                     if (e.Delta > 0)
                         document.RotateSelected(0.1F);
                     else

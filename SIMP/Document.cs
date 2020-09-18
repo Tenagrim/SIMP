@@ -68,13 +68,13 @@ namespace SIMP
            return CurrentLayer.DeleteSelected();
         }
 
-        public bool ScaleSelected(float a,float d)
+        public bool ScaleSelected(float a,float d, Point pivot = null)
         {
-            CurrentLayer.ScaleSelected(a, d);
+            CurrentLayer.ScaleSelected(a, d,pivot);
             return true;
         }
 
-        public void RotateSelected(float angle)
+        public void RotateSelected(float angle, Point pivot = null)
         {
             CurrentLayer.RotateSelected(angle);
         }

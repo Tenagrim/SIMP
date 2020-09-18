@@ -102,6 +102,8 @@ namespace SIMP
 
         public static bool operator ==(Point a, Point b)
         {
+            if ( (object)a == null || (object)b == null)
+                return (object)a == null && (object)b == null;
             return (a.x == b.x && a.y == b.y);
         }
         public static bool operator !=(Point a, Point b)

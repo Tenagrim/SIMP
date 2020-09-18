@@ -97,7 +97,12 @@ namespace SIMP
                      select v.x;
             var ys = from v in verticies
                      select v.y;
-            return new Point(xs.Sum() / xs.Count(), ys.Sum() / ys.Count());
+            float x_max = xs.Max();
+            float x_min = xs.Min();
+            float y_max = ys.Max();
+            float y_min = ys.Min();
+
+            return new Point(x_max - (x_max - x_min)/2, y_max - (y_max - y_min)/2);
         }
 
         public static void Transform(List<Point> verticies, Matrix transform)

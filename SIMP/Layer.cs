@@ -93,7 +93,7 @@ namespace SIMP
             foreach (var s in shapes)
                 foreach (var p in s.verticies)
                 {
-                    if(Point.Dist(p,a) <= 5 && s.Selected != selecting)
+                    if (Point.Dist(p, a) <= 5 && s.Selected != selecting)
                         s.Select(selecting);
                 }
         }
@@ -127,14 +127,14 @@ namespace SIMP
             return f;
         }
 
-        public bool ScaleSelected(float a, float d)
+        public bool ScaleSelected(float a, float d, Point pivot = null)
         {
             List<Point> points = SelectedPoints;
             if (points.Count <= 1)
                 return false;
 
             Point center1 = Shape.GetCenter(points);
-            Matrix scale = Matrix.Scale(a,d);
+            Matrix scale = Matrix.Scale(a, d);
             Shape.Transform(points, scale);
             Point center2 = Shape.GetCenter(points);
             Matrix translate = Matrix.Translate(center1.x - center2.x, center1.y - center2.y);
@@ -142,13 +142,16 @@ namespace SIMP
             return true;
         }
 
-        public void RotateSelected(float angle)
+        public void RotateSelected(float angle, Point pivot = null)
         {
+            Point center;
             List<Point> points = SelectedPoints;
             if (points.Count <= 1)
                 return;
-
-            Point center = Shape.GetCenter(points);
+            if (pivot == null)
+                center = Shape.GetCenter(points);
+            else 
+                center = pivot;
             Matrix rotation = Matrix.Rotate(center, angle);
             Shape.Transform(points, rotation);
         }
