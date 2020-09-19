@@ -18,11 +18,15 @@ namespace WindowsFormsControlLibrary1
 
         [Browsable(true), Category("Action")]
         [Description("Invoked when new current entity was set")]
-        public event DocumentStructureHandler SetCurrentEntity;
+        public event DocumentStructureHandler OnSetCurrentEntity;
 
         [Browsable(true), Category("Action")]
         [Description("Invoked when new childs for folder was set")]
-        public event DocumentStructureHandler MakeChilds;
+        public event DocumentStructureHandler OnAddChilds;
+
+        [Browsable(true), Category("Action")]
+        [Description("Invoked when new childs for folder was set")]
+        public event DocumentStructureHandler OnVisibleChanged_;
 
         public List<Panel> SelectedPanels { get { return (from p in panels where p.IsSelected select p).ToList(); } }
         public Panel CurrentEntity { get { return currentEntity; } }
@@ -77,11 +81,11 @@ namespace WindowsFormsControlLibrary1
             int pos = 0;
 
             foreach (var p in panels)
-                if (p is FolderPanel && p.Parent == null)
-                DisplayFolder((FolderPanel)p, ref pos);
+                if (p is FolderPanel && p.Parent_ == null)
+                    DisplayFolder((FolderPanel)p, ref pos);
             foreach (var l in panels)
-                if (l is LayerPanel && l.Parent == null)
-                l.Location = new Point(off_x, off_y + pos++ * panel_height + panel1.AutoScrollPosition.Y);
+                if (l is LayerPanel && l.Parent_ == null)
+                    l.Location = new Point(off_x, off_y + pos++ * panel_height + panel1.AutoScrollPosition.Y);
         }
 
         private int CountFolders()
@@ -102,13 +106,13 @@ namespace WindowsFormsControlLibrary1
         public void AddFolder(string name, int id)
         {
 
-            FolderPanel fp = new FolderPanel(name,this, id );
+            FolderPanel fp = new FolderPanel(name, this, id);
             //fp.Location = new System.Drawing.Point(off_x, folders.Count * panel_height + panel1.AutoScrollPosition.Y);
             //foreach(var l in layers)
             //    l.Location = new System.Drawing.Point(off_x, (folders.Count + layers.IndexOf(l)) * panel_height + panel1.AutoScrollPosition.Y);
 
             panels.Add(fp);
-            UpdateList();           
+            UpdateList();
             panel1.Controls.Add(fp);
 
             //vScrollBar1.Maximum = (layers.Count + folders.Count) * panel_height < panel1.Height? 0 : (layers.Count + folders.Count) * panel_height - panel1.Height;
@@ -118,7 +122,7 @@ namespace WindowsFormsControlLibrary1
         {
             string str = $"Layer {CountLayers() + 1}";
 
-            LayerPanel fp = new LayerPanel(str,this, panels.Count());
+            LayerPanel fp = new LayerPanel(name, this, id);
             //fp.Location = new System.Drawing.Point(off_x, (folders.Count + layers.Count) * panel_height + panel1.AutoScrollPosition.Y );
             //System.Diagnostics.Debug.WriteLine(panel1.AutoScrollPosition);
 
@@ -126,21 +130,28 @@ namespace WindowsFormsControlLibrary1
             UpdateList();
             panel1.Controls.Add(fp);
             //vScrollBar1.Maximum = (layers.Count + folders.Count) * panel_height < panel1.Height ? 0 : (layers.Count + folders.Count) * panel_height - panel1.Height;
-            
+
             //Select_entity.Invoke(this, new EventArgs())
         }
 
         private void add_folder_Click(object sender, EventArgs e)
         {
             string str = $"Folder {CountFolders() + 1}";
-            AddFolder(str, CountFolders() + 1);
+            AddFolder(str, panels.Count + 1);
+        }
+
+        public void VisibleChanged_(Panel sender)
+        {
+            DocumentStructureArgs args = new DocumentStructureArgs(null, sender.ID, -1, sender.IsVisible);
+            if (OnVisibleChanged_ != null)
+                OnVisibleChanged_.Invoke(this, args);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             // AddLayer();
-            string str = $"Folder {CountLayers() + 1}";
-            AddLayer(str, CountLayers() + 1);
+            string str = $"Layer {CountLayers() + 1}";
+            AddLayer(str, panels.Count + 1);
         }
 
         public void OpenFolder(FolderPanel folder)
@@ -161,18 +172,52 @@ namespace WindowsFormsControlLibrary1
 
         private void AddChilds(List<Panel> childs, FolderPanel parent)
         {
+            var sel = (from p in childs
+                       select p.ID).ToArray();
+
+            DocumentStructureArgs args = new DocumentStructureArgs(sel, -1, parent.ID, false);
             parent.AddChilds(childs);
+            if (OnAddChilds != null)
+                OnAddChilds.Invoke(this, args);
         }
 
         public void RemovePanel(Panel remove)
         {
-                panels.Remove(remove);
+            panels.Remove(remove);
             remove.Visible = false;
         }
         private void panel1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            // TODO: set new current
+            Panel p = GetPanel(e.Location);
+            if (p != null)
+            {
+                if (currentEntity != null)
+                    currentEntity.ChangeIsCurrent();
+                currentEntity = p;
+                currentEntity.ChangeIsCurrent();
+                DocumentStructureArgs args = new DocumentStructureArgs(null, p.ID, -1, p.IsVisible);
+                if (OnSetCurrentEntity != null)
+                    OnSetCurrentEntity.Invoke(this, args);
+            }
         }
+
+        public void SetCurrentEntity(int id)
+        {
+            var res = from p in panels
+                      where p.ID == id
+                      select p;
+            if (res.Count() != 0)
+            {
+                if (currentEntity != null)
+                    currentEntity.ChangeIsCurrent();
+                currentEntity = res.First();
+                currentEntity.ChangeIsCurrent();
+
+                //currentEntity = res.First();
+            }
+        }
+
+
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             mouse_start_pos = e.Location;
@@ -180,7 +225,7 @@ namespace WindowsFormsControlLibrary1
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
             mouse_end_pos = e.Location;
-            if (mouse_start_pos == mouse_end_pos)
+            if (mouse_start_pos == mouse_end_pos && e.Button == MouseButtons.Right)
             {
                 Panel p = GetPanel(mouse_start_pos);
                 if (p != null)
@@ -192,7 +237,7 @@ namespace WindowsFormsControlLibrary1
             List<Panel> childs = SelectedPanels;
             if (parent != null && childs.Count != 0 && parent is FolderPanel && !parent.IsSelected)
             {
-                AddChilds(childs,(FolderPanel)parent);
+                AddChilds(childs, (FolderPanel)parent);
                 //UpdateList();
                 UpdateList();
             }

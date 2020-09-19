@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace SIMP
 {
-    class Layer
+    class Layer : Entity
     {
         public List<Shape> Shapes { get { return shapes; } }
-        public List<Point> SelectedPoints
+        public override List<Point> SelectedPoints
         {
             get
             {
@@ -21,8 +21,8 @@ namespace SIMP
                 return points.ToList();
             }
         }
-        public bool Visible { get; set; }
-        public string Name { get; set; }
+
+
 
         private List<Shape> shapes;
 
@@ -34,14 +34,16 @@ namespace SIMP
             Name = "Layer";
         }
 
-        public Layer(string name) : this()
+        public Layer(string name, int id) : this()
         {
             Name = name;
+            this.id = id;
         }
 
-        public Layer(int n) : this()
+        public Layer(int name, int id) : this()
         {
-            Name = $"Layer {n}";
+            Name = $"Layer {name}";
+            this.id = id;
         }
 
         public void AddShape(Shape shape)
@@ -50,7 +52,7 @@ namespace SIMP
             shape.Unselect();
         }
 
-        public Shape GetShape(Point a)
+        public override Shape GetShape(Point a)
         {
             foreach (var s in shapes)
                 foreach (var v in s.verticies)
@@ -59,26 +61,28 @@ namespace SIMP
             return null;
         }
 
-        public void Display(Graphics field, Pen pen)
+        public override void Display(Graphics field, Pen pen)
         {
+            if (!Visible)
+                return;
             foreach (var s in shapes)
                 s.Draw(field);
         }
 
-        public void SelectPoints(Point a, Point b, bool selecting)
+        public override void SelectPoints(Point a, Point b, bool selecting)
         {
             foreach (var s in shapes)
                 foreach (var p in s.verticies)
                     p.Select(a, b, selecting);
         }
-        public void SelectPoints(Point a, bool selecting)
+        public override void SelectPoints(Point a, bool selecting)
         {
             foreach (var s in shapes)
                 foreach (var p in s.verticies)
                     p.Select(a, selecting);
         }
 
-        public void SelectShapes(Point a, Point b, bool selecting)
+        public override void SelectShapes(Point a, Point b, bool selecting)
         {
             foreach (var s in shapes)
                 foreach (var p in s.verticies)
@@ -88,7 +92,7 @@ namespace SIMP
                 }
         }
 
-        public void SelectShapes(Point a, bool selecting)
+        public override void SelectShapes(Point a, bool selecting)
         {
             foreach (var s in shapes)
                 foreach (var p in s.verticies)
@@ -98,19 +102,19 @@ namespace SIMP
                 }
         }
 
-        public void Unselect()
+        public override void Unselect()
         {
             foreach (var s in shapes)
                 s.Unselect();
         }
 
-        public void SelectAll()
+        public override void SelectAll()
         {
             foreach (var s in shapes)
                 s.Select();
         }
 
-        public bool DeleteSelected()
+        public override bool DeleteSelected()
         {
             bool f;
             do
@@ -127,7 +131,7 @@ namespace SIMP
             return f;
         }
 
-        public bool ScaleSelected(float a, float d, Point pivot = null)
+        public override bool ScaleSelected(float a, float d, Point pivot = null)
         {
             List<Point> points = SelectedPoints;
             if (points.Count <= 1)
@@ -142,7 +146,7 @@ namespace SIMP
             return true;
         }
 
-        public void RotateSelected(float angle, Point pivot = null)
+        public override void RotateSelected(float angle, Point pivot = null)
         {
             Point center;
             List<Point> points = SelectedPoints;
@@ -156,7 +160,7 @@ namespace SIMP
             Shape.Transform(points, rotation);
         }
 
-        public void center(Graphics f)
+        public override void center(Graphics f)
         {
             List<Point> points = SelectedPoints;
             if (points.Count <= 1)

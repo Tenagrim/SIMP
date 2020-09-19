@@ -8,85 +8,131 @@ namespace SIMP
 {
     class Document
     {
-        public List<Layer> Layers { get { return layers; } }
-        public Layer CurrentLayer { get { return layers[current_layer]; } }
-        public int CurrentLayerIndex { get { return current_layer; } }
-        public List<Point> SelectedPoints { get { return CurrentLayer.SelectedPoints; } }
+        //public List<Layer> Layers { get { return layers; } }
+
+        public List<Entity> Entities { get { return entities; } }
+        public Entity CurrentEntity { get { return currentEntity; } }
+        public List<Point> SelectedPoints { get { return CurrentEntity.SelectedPoints; } }
 
         public List<Point> TempPoints { get; set; }
 
-        private int current_layer;
+        private Entity currentEntity;
         private List<Layer> layers;
+        private List<Entity> entities;
 
         public Document()
         {
-            layers = new List<Layer>();
-            layers.Add(new Layer(1));
+            //layers = new List<Layer>();
+            //layers.Add(new Layer(1,1));
+            entities = new List<Entity>();
+            entities.Add(new Layer(1, 1));
             TempPoints = new List<Point>();
-            current_layer = 0;
+            currentEntity = entities[0];
+            //current_layer = 0;
         }
         public void NewLayer()
         {
-            layers.Add(new Layer(layers.Count));
-            current_layer = layers.Count - 1;
+            Layer l = new Layer(entities.Count + 1, entities.Count + 1);
+            entities.Add(l);
+            currentEntity = l;
+        }
+        public void NewFolder()
+        {
+            Folder f = new Folder();
+            entities.Add(f);
+        }
+
+        public void ChangeVisible(int id, bool f)
+        {
+            Entity en = GetEntity(id);
+            if (en != null)
+                en.Visible = f;
+        }
+
+        private Entity GetEntity(int id)
+        {
+            var sel = from e in entities
+                      where e.ID == id
+                      select e;
+            if (sel.Count() != 0)
+                return sel.First();
+            return null;
         }
 
         public void SelectPoints(Point a, Point b, bool selecting)
         {
-            CurrentLayer.SelectPoints(a, b, selecting);
+            CurrentEntity.SelectPoints(a, b, selecting);
         }
         public void SelectPoints(Point a,  bool selecting)
         {
-            CurrentLayer.SelectPoints(a,  selecting);
+            CurrentEntity.SelectPoints(a,  selecting);
+        }
+
+        private int CountFolders()
+        {
+            var res = (from p in entities
+                       where p is Folder
+                       select p).Count();
+            return res;
+        }
+        private int CountLayers()
+        {
+            var res = (from p in entities
+                       where p is Layer
+                       select p).Count();
+            return res;
         }
 
         public void SelectShapes(Point a, Point b, bool selecting)
         {
-            CurrentLayer.SelectShapes(a, b, selecting);
+            CurrentEntity.SelectShapes(a, b, selecting);
         }
         public void SelectShapes(Point a,  bool selecting)
         {
-            CurrentLayer.SelectShapes(a, selecting);
+            CurrentEntity.SelectShapes(a, selecting);
         }
         public void Unselect()
         {
-            CurrentLayer.Unselect();
+            CurrentEntity.Unselect();
         }
         public void UnselectAll()
         {
-            foreach (var l in layers)
-                l.Unselect();
+            foreach (var e in entities)
+                e.Unselect();
         }
 
         public void SelectAll()
         {
-            CurrentLayer.SelectAll();
+            CurrentEntity.SelectAll();
         }
 
         public bool DeleteSelected()
         {
-           return CurrentLayer.DeleteSelected();
+           return CurrentEntity.DeleteSelected();
         }
 
         public bool ScaleSelected(float a,float d, Point pivot = null)
         {
-            CurrentLayer.ScaleSelected(a, d,pivot);
+            CurrentEntity.ScaleSelected(a, d,pivot);
             return true;
         }
 
         public void RotateSelected(float angle, Point pivot = null)
         {
-            CurrentLayer.RotateSelected(angle);
+            CurrentEntity.RotateSelected(angle);
         }
 
         public Shape GetShape(Point a)
         {
-            return CurrentLayer.GetShape(a);
+            return CurrentEntity.GetShape(a);
         }
 
-        public void SetCurrentLayer(int n)
+        public void SetCurrentEntity(int id)
         {
-            current_layer = n < layers.Count && n >= 0 ? n : current_layer;
+            //current_layer = n < layers.Count && n >= 0 ? n : current_layer;
+            Entity en = GetEntity(id);
+            if (en != null)
+                currentEntity = en;
         }
 
         public void DisplayTempPoints(System.Drawing.Graphics field)
@@ -103,15 +149,23 @@ namespace SIMP
         {
             if (TempPoints.Count == 0)
                 return;
-            CurrentLayer.AddShape(new Shape(TempPoints, is_path));
+            if(CurrentEntity is Layer)
+            ((Layer)CurrentEntity).AddShape(new Shape(TempPoints, is_path));
+            TempPoints = new List<Point>();
+        }
+        public void AddShape(Shape shape)
+        {
+            if (TempPoints.Count == 0)
+                return;
+            if (CurrentEntity is Layer)
+                ((Layer)CurrentEntity).AddShape(shape);
             TempPoints = new List<Point>();
         }
 
         public void Display(System.Drawing.Graphics field, System.Drawing.Pen pen)
         {
-            foreach (var l in layers)
-                if (l.Visible)
-                    l.Display(field, pen);
+            foreach (var e in entities)
+                e.Display(field, pen);
             DisplayTempPoints(field);
         }
 
@@ -122,7 +176,7 @@ namespace SIMP
 
         public void center(System.Drawing.Graphics f)
         {
-            CurrentLayer.center(f);
+            CurrentEntity.center(f);
         }
     }
 }

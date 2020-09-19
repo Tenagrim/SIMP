@@ -100,7 +100,7 @@ namespace SIMP
                     {
                         Line l = new Line(shape[0], shape[1]);
                         l.Unselect();
-                        document.CurrentLayer.AddShape(l);
+                        document.AddShape(l);
                         shape.Clear();
                     }
                 }
@@ -114,24 +114,18 @@ namespace SIMP
 
         private void UpdateLayersPanel()
         {
-            lb_layers.Items.Clear();
-            foreach (var l in document.Layers)
-                lb_layers.Items.Add(l.ToString());
-            lb_layers.SelectedIndex = document.CurrentLayerIndex;
-
-        }
-
-        private void cb_layer_visible_CheckedChanged(object sender, EventArgs e)
-        {
-            document.CurrentLayer.Visible = cb_layer_visible.Checked;
-            lb_layers.Items[lb_layers.SelectedIndex] = document.CurrentLayer.ToString();
-            Display();
-        }
-
-        private void lb_layers_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            document.SetCurrentLayer(lb_layers.SelectedIndex);
-            cb_layer_visible.Checked = document.CurrentLayer.Visible;
+            foreach (var e in document.Entities)
+            {
+                if (e is Layer)
+                {
+                    documentStructureViewer1.AddLayer(e.Name, e.ID);
+                }
+                else if (e is Folder)
+                {
+                    documentStructureViewer1.AddFolder(e.Name, e.ID);
+                }
+                documentStructureViewer1.SetCurrentEntity(document.CurrentEntity.ID);
+            }
         }
         //protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         //{
@@ -159,8 +153,8 @@ namespace SIMP
         private void b_new_layer_Click(object sender, EventArgs e)
         {
             document.NewLayer();
-            lb_layers.Items.Add(document.Layers.Last());
-            lb_layers.SelectedIndex = lb_layers.Items.Count - 1;
+            documentStructureViewer1.AddLayer(document.CurrentEntity.Name, document.CurrentEntity.ID);
+            documentStructureViewer1.SetCurrentEntity(document.CurrentEntity.ID);
         }
 
         private void UnselectTools()
@@ -472,6 +466,30 @@ namespace SIMP
         private void right_panel_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void documentStructureViewer1_OnSetCurrentEntity(object sender, WindowsFormsControlLibrary1.DocumentStructureArgs args)
+        {
+            document.SetCurrentEntity(args.CurrentEntityId);
+
+            //ShowMsg(args.CurrentEntityId.ToString());
+        }
+
+        private void ShowMsg(string msg)
+        {
+            //msg_label.Text = msg;
+            //msg_label.Visible = true;
+            MessageBox.Show(
+             msg,
+              "Info",
+            MessageBoxButtons.OK,
+      MessageBoxIcon.Information);
+        }
+
+        private void documentStructureViewer1_OnVisibleChanged_(object sender, WindowsFormsControlLibrary1.DocumentStructureArgs args)
+        {
+            document.ChangeVisible(args.CurrentEntityId, args.flag);
+            Display();
         }
     }
 }

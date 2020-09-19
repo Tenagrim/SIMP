@@ -17,7 +17,7 @@ namespace WindowsFormsControlLibrary1
 
         public List<Panel> Childs { get; set; }
 
-        public FolderPanel parent;
+        //public FolderPanel parent;
         public bool IsOpened { get { return opened; } set { 
                 opened = value;
                 pictureBox1.Image = opened ? Properties.Resources.folder_opened : Properties.Resources.folder_closed;
@@ -27,7 +27,7 @@ namespace WindowsFormsControlLibrary1
         private bool opened;
         public FolderPanel(string name, DocumentStructureViewer sParent, int id) : this()
         {
-            Name = name;
+            Name_ = name;
             superParent = sParent;
             this.id = id;
         }
@@ -36,9 +36,10 @@ namespace WindowsFormsControlLibrary1
             InitializeComponent();
             pictureBox1.Image = Properties.Resources.folder_closed;
             opened = false;
-            Name = "Folder";
+            Name_ = "Folder";
             Childs = new List<Panel>();
-            Parent = null;
+            Parent_ = null;
+            isCurrent = false;
             //ControlExtension.Draggable(this, true);
         }
         public void ChangeOpened()
@@ -58,7 +59,7 @@ namespace WindowsFormsControlLibrary1
             {
                 c.RemoveMe();
                 Childs.Add(c);
-                c.Parent = this;
+                c.Parent_ = this;
                 c.ChangeSelection();
             }
         }

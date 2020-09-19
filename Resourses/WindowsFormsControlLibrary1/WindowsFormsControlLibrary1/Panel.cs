@@ -14,36 +14,44 @@ namespace WindowsFormsControlLibrary1
     {
 
         public int ID { get { return id; } }
-        public string Name { get { return name; } set { label1.Text = value; name = value; } }
+        public string Name_ { get { return name; } set { label1.Text = value; name = value; } }
 
-        public FolderPanel Parent { get { return parent; } set { parent = value; } }
+        public FolderPanel Parent_ { get { return parent; } set { parent = value; } }
 
         public bool IsVisible { get { return checkBox1.Checked; } }
         public bool IsSelected { get { return selected; } }
 
-        private bool selected;
-        private FolderPanel parent;
+        protected bool selected;
+        protected FolderPanel parent;
         protected string name;
         protected DocumentStructureViewer superParent;
+        protected bool isCurrent;
 
         protected int id;
 
 
         public Panel(string name) : this()
         {
-            Name = name;
+            Name_ = name;
         }
 
         public Panel()
         {
             InitializeComponent();
             selected = false;
+            isCurrent = false;
         }
 
         public void ChangeSelection()
         {
             selected = !selected;
             BackColor = selected ? SystemColors.ControlDark : SystemColors.Control;
+        }
+
+        public void ChangeIsCurrent()
+        {
+            isCurrent = !isCurrent;
+            BackColor = isCurrent ? SystemColors.ActiveCaption : SystemColors.Control;
         }
 
         public void RemoveMe()
@@ -66,6 +74,10 @@ namespace WindowsFormsControlLibrary1
                 base.WndProc(ref m);
             }
         }
-        
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            superParent.VisibleChanged_(this);
+        }
     }
 }

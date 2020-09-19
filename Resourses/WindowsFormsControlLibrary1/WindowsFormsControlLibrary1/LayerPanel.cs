@@ -15,7 +15,7 @@ namespace WindowsFormsControlLibrary1
 
         public LayerPanel(string name, DocumentStructureViewer sParent, int id) : this()
         {
-            Name = name;
+            Name_ = name;
             this.id = id;
             superParent = sParent;
         }
@@ -23,7 +23,8 @@ namespace WindowsFormsControlLibrary1
         {
             InitializeComponent();
             //ControlExtension.Draggable(this, true);
-            Parent = null;
+            Parent_ = null;
+            isCurrent = false;
         }
     }
 }

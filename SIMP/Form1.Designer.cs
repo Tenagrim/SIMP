@@ -57,8 +57,6 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.lb_layers = new System.Windows.Forms.ListBox();
-            this.cb_layer_visible = new System.Windows.Forms.CheckBox();
             this.b_new_layer = new System.Windows.Forms.Button();
             this.documentStructureViewer1 = new WindowsFormsControlLibrary1.DocumentStructureViewer();
             this.right_panel.SuspendLayout();
@@ -73,7 +71,10 @@
             this.right_panel.Controls.Add(this.documentStructureViewer1);
             this.right_panel.Controls.Add(this.button6);
             this.right_panel.Controls.Add(this.button5);
+            this.right_panel.Controls.Add(this.button1);
+            this.right_panel.Controls.Add(this.b_new_layer);
             this.right_panel.Controls.Add(this.button3);
+            this.right_panel.Controls.Add(this.button2);
             this.right_panel.Controls.Add(this.b_tool_pointer);
             this.right_panel.Controls.Add(this.b_tool_shape);
             this.right_panel.Controls.Add(this.groupBox1);
@@ -323,7 +324,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(138, 620);
+            this.button2.Location = new System.Drawing.Point(71, 268);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 4;
@@ -332,36 +333,16 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(138, 591);
+            this.button1.Location = new System.Drawing.Point(71, 239);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
             this.button1.Text = "Delete";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // lb_layers
-            // 
-            this.lb_layers.FormattingEnabled = true;
-            this.lb_layers.Location = new System.Drawing.Point(12, 539);
-            this.lb_layers.Name = "lb_layers";
-            this.lb_layers.Size = new System.Drawing.Size(120, 108);
-            this.lb_layers.TabIndex = 0;
-            this.lb_layers.SelectedIndexChanged += new System.EventHandler(this.lb_layers_SelectedIndexChanged);
-            // 
-            // cb_layer_visible
-            // 
-            this.cb_layer_visible.AutoSize = true;
-            this.cb_layer_visible.Location = new System.Drawing.Point(138, 539);
-            this.cb_layer_visible.Name = "cb_layer_visible";
-            this.cb_layer_visible.Size = new System.Drawing.Size(56, 17);
-            this.cb_layer_visible.TabIndex = 1;
-            this.cb_layer_visible.Text = "Visible";
-            this.cb_layer_visible.UseVisualStyleBackColor = true;
-            this.cb_layer_visible.CheckedChanged += new System.EventHandler(this.cb_layer_visible_CheckedChanged);
-            // 
             // b_new_layer
             // 
-            this.b_new_layer.Location = new System.Drawing.Point(139, 562);
+            this.b_new_layer.Location = new System.Drawing.Point(72, 210);
             this.b_new_layer.Name = "b_new_layer";
             this.b_new_layer.Size = new System.Drawing.Size(75, 23);
             this.b_new_layer.TabIndex = 2;
@@ -371,11 +352,13 @@
             // 
             // documentStructureViewer1
             // 
+            this.documentStructureViewer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.documentStructureViewer1.Location = new System.Drawing.Point(3, 332);
-            this.documentStructureViewer1.MyProperty = 0;
             this.documentStructureViewer1.Name = "documentStructureViewer1";
-            this.documentStructureViewer1.Size = new System.Drawing.Size(227, 331);
+            this.documentStructureViewer1.Size = new System.Drawing.Size(227, 294);
             this.documentStructureViewer1.TabIndex = 17;
+            this.documentStructureViewer1.OnSetCurrentEntity += new WindowsFormsControlLibrary1.DocumentStructureViewer.DocumentStructureHandler(this.documentStructureViewer1_OnSetCurrentEntity);
+            this.documentStructureViewer1.OnVisibleChanged_ += new WindowsFormsControlLibrary1.DocumentStructureViewer.DocumentStructureHandler(this.documentStructureViewer1_OnVisibleChanged_);
             // 
             // Form1
             // 
@@ -385,11 +368,6 @@
             this.Controls.Add(this.central_panel);
             this.Controls.Add(this.right_panel);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.lb_layers);
-            this.Controls.Add(this.cb_layer_visible);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.b_new_layer);
-            this.Controls.Add(this.button2);
             this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "SIMP";
@@ -443,8 +421,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button b_new_layer;
-        private System.Windows.Forms.CheckBox cb_layer_visible;
-        private System.Windows.Forms.ListBox lb_layers;
         private WindowsFormsControlLibrary1.DocumentStructureViewer documentStructureViewer1;
     }
 }
