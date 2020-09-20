@@ -11,8 +11,9 @@ namespace SIMP
     {
 
         public string Formula { get { return CalcForm(); } }
-        public Line(Point a, Point b) : base(Point.ToList(a, b))
+        public Line(Layer parent, Point a, Point b) : base(Point.ToList(a, b))
         {
+            Parent = parent;
             //Position = new Point(Math.Min(a.x, b.x), Math.Min(a.y, b.y));
             //CalcForm();
         }
@@ -47,7 +48,6 @@ namespace SIMP
 
             return $"y={x[0]} * X + {x[1]}";
         }
-
         private float[] Gauss(float[,] a, float[] y, int n)
         {
             float[] x = new float[n];

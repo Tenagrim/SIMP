@@ -11,9 +11,18 @@ namespace SIMP
         public bool Visible { get; set; }
         public int ID { get { return id; } }
         public string Name { get; set; }
-        public virtual List<Point> SelectedPoints { get; set; }
+        public virtual List<Point> SelectedPoints { get;}
+        public virtual List<Shape> SelectedShapes { get; }
+        public Folder Parent { get; set; }
 
         protected int id;
+
+        public void RemoveMe()
+        {
+            if (Parent != null)
+                Parent.RemoveChild(this);
+        }
+
         public virtual void SelectPoints(Point a, Point b, bool selecting)
         { 
         }

@@ -46,7 +46,7 @@ namespace WindowsFormsControlLibrary1
         {
             selected = !selected;
             BackColor = selected ? SystemColors.ControlDark : SystemColors.Control;
-            BackColor = isCurrent ? SystemColors.ActiveCaption : SystemColors.Control;
+            BackColor = isCurrent ? SystemColors.ActiveCaption : this.BackColor;
         }
 
         public void ChangeIsCurrent()

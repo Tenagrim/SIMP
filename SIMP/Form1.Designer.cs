@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.right_panel = new System.Windows.Forms.Panel();
+            this.b_delete_selected_layers = new System.Windows.Forms.Button();
+            this.b_new_folder = new System.Windows.Forms.Button();
             this.documentStructureViewer1 = new WindowsFormsControlLibrary1.DocumentStructureViewer();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
@@ -56,8 +58,8 @@
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unselectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.layerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.b_new_folder = new System.Windows.Forms.Button();
             this.right_panel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.central_panel.SuspendLayout();
@@ -67,6 +69,7 @@
             // 
             // right_panel
             // 
+            this.right_panel.Controls.Add(this.b_delete_selected_layers);
             this.right_panel.Controls.Add(this.b_new_folder);
             this.right_panel.Controls.Add(this.documentStructureViewer1);
             this.right_panel.Controls.Add(this.button6);
@@ -85,7 +88,26 @@
             this.right_panel.Name = "right_panel";
             this.right_panel.Size = new System.Drawing.Size(262, 666);
             this.right_panel.TabIndex = 0;
-            this.right_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.right_panel_Paint);
+            // 
+            // b_delete_selected_layers
+            // 
+            this.b_delete_selected_layers.Image = global::SIMP.Properties.Resources.minus;
+            this.b_delete_selected_layers.Location = new System.Drawing.Point(67, 632);
+            this.b_delete_selected_layers.Name = "b_delete_selected_layers";
+            this.b_delete_selected_layers.Size = new System.Drawing.Size(26, 25);
+            this.b_delete_selected_layers.TabIndex = 19;
+            this.b_delete_selected_layers.UseVisualStyleBackColor = true;
+            this.b_delete_selected_layers.Click += new System.EventHandler(this.b_delete_selected_layers_Click);
+            // 
+            // b_new_folder
+            // 
+            this.b_new_folder.Image = global::SIMP.Properties.Resources.add_folder;
+            this.b_new_folder.Location = new System.Drawing.Point(35, 632);
+            this.b_new_folder.Name = "b_new_folder";
+            this.b_new_folder.Size = new System.Drawing.Size(26, 25);
+            this.b_new_folder.TabIndex = 18;
+            this.b_new_folder.UseVisualStyleBackColor = true;
+            this.b_new_folder.Click += new System.EventHandler(this.b_new_folder_Click);
             // 
             // documentStructureViewer1
             // 
@@ -95,15 +117,17 @@
             this.documentStructureViewer1.Size = new System.Drawing.Size(227, 294);
             this.documentStructureViewer1.TabIndex = 17;
             this.documentStructureViewer1.OnSetCurrentEntity += new WindowsFormsControlLibrary1.DocumentStructureViewer.DocumentStructureHandler(this.documentStructureViewer1_OnSetCurrentEntity);
+            this.documentStructureViewer1.OnAddChilds += new WindowsFormsControlLibrary1.DocumentStructureViewer.DocumentStructureHandler(this.documentStructureViewer1_OnAddChilds);
             this.documentStructureViewer1.OnVisibleChanged_ += new WindowsFormsControlLibrary1.DocumentStructureViewer.DocumentStructureHandler(this.documentStructureViewer1_OnVisibleChanged_);
+            this.documentStructureViewer1.OnUnsetChilds += new WindowsFormsControlLibrary1.DocumentStructureViewer.DocumentStructureHandler(this.documentStructureViewer1_OnUnsetChilds);
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(172, 142);
+            this.button6.Location = new System.Drawing.Point(172, 176);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 16;
-            this.button6.Text = "button6";
+            this.button6.Text = "Show center";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -166,7 +190,6 @@
             this.groupBox1.Size = new System.Drawing.Size(132, 44);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // radioButton2
             // 
@@ -266,7 +289,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.editToolStripMenuItem,
-            this.selectionToolStripMenuItem});
+            this.selectionToolStripMenuItem,
+            this.layerToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(882, 24);
@@ -340,15 +364,11 @@
             this.deleteSelectedToolStripMenuItem.Text = "Delete selected";
             this.deleteSelectedToolStripMenuItem.Click += new System.EventHandler(this.deleteSelectedToolStripMenuItem_Click);
             // 
-            // b_new_folder
+            // layerToolStripMenuItem
             // 
-            this.b_new_folder.Image = global::SIMP.Properties.Resources.add_folder;
-            this.b_new_folder.Location = new System.Drawing.Point(35, 632);
-            this.b_new_folder.Name = "b_new_folder";
-            this.b_new_folder.Size = new System.Drawing.Size(26, 25);
-            this.b_new_folder.TabIndex = 18;
-            this.b_new_folder.UseVisualStyleBackColor = true;
-            this.b_new_folder.Click += new System.EventHandler(this.b_new_folder_Click);
+            this.layerToolStripMenuItem.Name = "layerToolStripMenuItem";
+            this.layerToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.layerToolStripMenuItem.Text = "Layer";
             // 
             // Form1
             // 
@@ -411,6 +431,8 @@
         private System.Windows.Forms.Button b_new_layer;
         private WindowsFormsControlLibrary1.DocumentStructureViewer documentStructureViewer1;
         private System.Windows.Forms.Button b_new_folder;
+        private System.Windows.Forms.Button b_delete_selected_layers;
+        private System.Windows.Forms.ToolStripMenuItem layerToolStripMenuItem;
     }
 }
 

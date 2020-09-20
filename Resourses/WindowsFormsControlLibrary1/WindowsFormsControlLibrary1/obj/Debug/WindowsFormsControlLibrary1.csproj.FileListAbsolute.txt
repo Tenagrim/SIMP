@@ -18,3 +18,4 @@ T:\Projects\VisualStudio\SIMP\Resourses\WindowsFormsControlLibrary1\WindowsForms
 T:\Projects\VisualStudio\SIMP\Resourses\WindowsFormsControlLibrary1\WindowsFormsControlLibrary1\obj\Debug\WindowsFormsControlLibrary1.csproj.CopyComplete
 T:\Projects\VisualStudio\SIMP\Resourses\WindowsFormsControlLibrary1\WindowsFormsControlLibrary1\obj\Debug\WindowsFormsControlLibrary1.FolderPanel.resources
 T:\Projects\VisualStudio\SIMP\Resourses\WindowsFormsControlLibrary1\WindowsFormsControlLibrary1\obj\Debug\WindowsFormsControlLibrary1.DocumentStructureViewer.resources
+T:\Projects\VisualStudio\SIMP\Resourses\WindowsFormsControlLibrary1\WindowsFormsControlLibrary1\obj\Debug\WindowsFormsControlLibrary1.csprojAssemblyReference.cache

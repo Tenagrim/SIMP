@@ -45,7 +45,7 @@ namespace SIMP
         private Pen pen;
         private Keyboard keyboard;
 
-        private List<Point> shape;
+        //private List<Point> shape;
 
         private Point mouse_start_pos;
         private Point mouse_end_pos;
@@ -60,7 +60,7 @@ namespace SIMP
             main_graphics = Graphics.FromImage(main_viewport.Image);
             state = State.idle;
             tool = Tool.none;
-            shape = new List<Point>();
+            //shape = new List<Point>();
             pen = new Pen(Color.White, 2.0F);
             keyboard = new Keyboard();
 
@@ -78,8 +78,8 @@ namespace SIMP
             main_graphics.Clear(Color.Black);
             document.Display(main_graphics, pen);
 
-            foreach (var p in shape)
-                p.Draw(main_graphics);
+            //foreach (var p in shape)
+             //   p.Draw(main_graphics);
             // if (lb_layers.SelectedIndex != -1)
             //    lb_layers.Items[lb_layers.SelectedIndex] = document.CurrentLayer.ToString();
         }
@@ -92,19 +92,19 @@ namespace SIMP
 
         private void main_viewport_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-                if (tool == Tool.line)
-                {
-                    shape.Add(new Point(e.X, e.Y, true));
-                    if (shape.Count == 2)
-                    {
-                        Line l = new Line(shape[0], shape[1]);
-                        l.Unselect();
-                        document.AddShape(l);
-                        shape.Clear();
-                    }
-                }
-            Display();
+            //if (e.Button == MouseButtons.Left)
+            //    if (tool == Tool.line)
+            //    {
+            //        shape.Add(new Point(e.X, e.Y, true));
+            //        if (shape.Count == 2)
+            //        {
+            //            Line l = new Line(shape[0], shape[1]);
+            //            l.Unselect();
+            //            document.AddShape(l);
+            //            shape.Clear();
+            //        }
+            //    }
+            //Display();
         }
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
@@ -155,11 +155,19 @@ namespace SIMP
             document.NewLayer();
             documentStructureViewer1.AddLayer(document.CurrentEntity.Name, document.CurrentEntity.ID);
             documentStructureViewer1.SetCurrentEntity(document.CurrentEntity.ID);
+            Display();
         }
         private void b_new_folder_Click(object sender, EventArgs e)
         {
             document.NewFolder();
             documentStructureViewer1.AddFolder(document.LastAdded.Name, document.LastAdded.ID);
+        }
+
+        private void b_delete_selected_layers_Click(object sender, EventArgs e)
+        {
+            document.DeleteEntity(documentStructureViewer1.SelectedIds);
+            documentStructureViewer1.DeleteSelected();
+            Display();
         }
         private void UnselectTools()
         {
@@ -266,6 +274,7 @@ namespace SIMP
                     document.AddShape(true);
                 else
                     document.TempPoints.Add(new Point(e.X, e.Y, true));
+                Display();
             }
             else if (tool == Tool.pointer)
 
@@ -281,6 +290,14 @@ namespace SIMP
                 Display();
                 mouse_start_pos = new Point(e.X, e.Y);
                 state = State.move;
+            }
+            else if (tool == Tool.line)
+            {
+
+                    document.TempPoints.Add(new Point(e.X, e.Y, true));
+                if (document.TempPoints.Count >= 2)
+                    document.AddLine();
+                Display();
             }
         }
 
@@ -343,10 +360,8 @@ namespace SIMP
             document.UnselectAll();
             Display();
         }
-
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-
             keyboard.KeyDown(e.KeyValue);
 
             if (keyboard.IsKeysDown((int)(Keys.ControlKey), (int)Keys.D))
@@ -372,49 +387,31 @@ namespace SIMP
                 Display();
             }
         }
-
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             keyboard.KeyUp(e.KeyValue);
         }
-
         private void unselectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             document.UnselectAll();
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
-
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             document = new Document();
             Display();
         }
-
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             document.SelectAll();
             Display();
         }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            /*
-            if (radioButton1.Checked)
-                state = State.select_points;
-            else
-                state = State.select_shapes;
-                */
+            //points or shapes selection
         }
-
         private void deleteSelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             document.DeleteSelected();
@@ -422,11 +419,11 @@ namespace SIMP
         }
         private void SaveDocument()
         {
-
+//TODO: Save
         }
         private void LoadDocument()
         {
-
+//TODO:Load
         }
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -464,32 +461,20 @@ namespace SIMP
                     Display();
                     break;
             }
-
         }
-
-        private void right_panel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void documentStructureViewer1_OnSetCurrentEntity(object sender, WindowsFormsControlLibrary1.DocumentStructureArgs args)
         {
             document.SetCurrentEntity(args.CurrentEntityId);
-
-            //ShowMsg(args.CurrentEntityId.ToString());
         }
-
         private void ShowMsg(string msg)
         {
-            //msg_label.Text = msg;
-            //msg_label.Visible = true;
             MessageBox.Show(
              msg,
               "Info",
             MessageBoxButtons.OK,
       MessageBoxIcon.Information);
         }
-        //TODO: folder logic
+
         //TODO: delete layes/folders
         //TODO: merge layers
         //TODO: split layers
@@ -499,6 +484,15 @@ namespace SIMP
             Display();
         }
 
-
+        private void documentStructureViewer1_OnAddChilds(object sender, WindowsFormsControlLibrary1.DocumentStructureArgs args)
+        {
+            document.AddChilds(args.NewParent, args.SelectedIds);
+            Display();
+        }
+        private void documentStructureViewer1_OnUnsetChilds(object sender, WindowsFormsControlLibrary1.DocumentStructureArgs args)
+        {
+            document.UnsetChilds(args.SelectedIds);
+            Display();
+        }
     }
 }

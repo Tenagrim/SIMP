@@ -10,6 +10,7 @@ namespace SIMP
     class Layer : Entity
     {
         public List<Shape> Shapes { get { return shapes; } }
+        public override List<Shape> SelectedShapes { get { return GetSelectedShapes(); } }
         public override List<Point> SelectedPoints
         {
             get
@@ -32,6 +33,7 @@ namespace SIMP
             shapes = new List<Shape>();
             Visible = true;
             Name = "Layer";
+            Parent = null;
         }
 
         public Layer(string name, int id) : this()
@@ -40,10 +42,31 @@ namespace SIMP
             this.id = id;
         }
 
-        public Layer(int name, int id) : this()
+        public Layer(int name, int id, List<Shape> shapes = null) 
         {
             Name = $"Layer {name}";
             this.id = id;
+            if (shapes != null)
+            {
+                this.shapes = shapes;
+                foreach (var s in shapes)
+                {
+                    s.Unselect();
+                    s.RemoveMe();
+                }               
+            }
+            else
+                this.shapes = new List<Shape>();
+            Visible = true;
+            Parent = null;
+        }
+
+        private List<Shape> GetSelectedShapes()
+        {
+            var sel = (from s in shapes
+                       where s.Selected == true
+                       select s).ToList();
+            return (sel);
         }
 
         public void AddShape(Shape shape)
@@ -52,6 +75,10 @@ namespace SIMP
             shape.Unselect();
         }
 
+        public void RemoveChild(Shape child)
+        {
+            shapes.Remove(child);
+        }
         public override Shape GetShape(Point a)
         {
             foreach (var s in shapes)

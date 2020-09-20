@@ -40,6 +40,7 @@ namespace WindowsFormsControlLibrary1
         public event DocumentStructureHandler OnDeleteEnties;
 
         public List<Panel> SelectedPanels { get { return (from p in panels where p.IsSelected select p).ToList(); } }
+       public int[] SelectedIds { get { return GetIds(SelectedPanels); } }
         public Panel CurrentEntity { get { return currentEntity; } }
 
         private Panel currentEntity;
@@ -369,6 +370,8 @@ namespace WindowsFormsControlLibrary1
                 UpdateList();
             }
         }
+
+
 
         private void DocumentStructureViewer_MouseDown(object sender, MouseEventArgs e)
         {

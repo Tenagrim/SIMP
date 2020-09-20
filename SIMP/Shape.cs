@@ -13,14 +13,16 @@ namespace SIMP
         public Point Center { get { return GetCenter(verticies); } }
         public Point Begin { get { return verticies[0]; } }
         public Matrix Matrix { get { return GetMatrix(); } }
+        public Layer Parent { get; set; }
         public Pen pen { get; set; }
         public bool Selected { get { return selected; }  }
 
         private bool is_path;
         private bool selected;
-        public Shape(List<Point> verts, bool is_path) : this(verts)
+        public Shape(Layer parent, List<Point> verts, bool is_path) : this(verts)
         {
             this.is_path = is_path;
+            Parent = parent;
         }
 
         public Shape(List<Point> verts)
@@ -31,6 +33,12 @@ namespace SIMP
             pen = new Pen(System.Drawing.Color.White, 2.0F);
             for (int i = 0; i < verticies.Count; i++)
                 verticies[i].Parent = this;
+        }
+
+        public void RemoveMe()
+        {
+            if (Parent != null)
+                Parent.RemoveChild(this);
         }
 
         public virtual void Draw(Graphics field)

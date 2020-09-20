@@ -9,22 +9,23 @@ namespace SIMP
     class Folder : Entity
     {
         public List<Entity> childs;
+        public override List<Shape> SelectedShapes { get { return GetSelectedShapes(); } }
 
         public override List<Point> SelectedPoints
         {
             get
             {
                 var folders_points = (from c in childs
-                             where c is Folder
-                             from p in ((Folder)c).SelectedPoints
-                             select p);
+                                      where c is Folder
+                                      from p in ((Folder)c).SelectedPoints
+                                      select p);
 
                 var layers_points = (from c in childs
-                                    where c is Layer
-                                    from s in ((Layer)c).Shapes
-                                    from p in s.verticies
-                                    where p.Selected == true
-                                    select p);
+                                     where c is Layer
+                                     from s in ((Layer)c).Shapes
+                                     from p in s.verticies
+                                     where p.Selected == true
+                                     select p);
 
                 var res = folders_points.Union(layers_points).ToList();
 
@@ -49,14 +50,58 @@ namespace SIMP
             childs = new List<Entity>();
             Visible = true;
             Name = "Folder";
+            Parent = null;
         }
 
+        public Entity GetEntity(int id)
+        {
+            Entity res = null;
+            var sel = from e in childs
+                      where e.ID == id
+                      select e;
+            if (sel.Count() != 0)
+                return sel.First();
+            else
+            {
+                foreach (var c in childs)
+                {
+                    if (c is Folder)
+                    {
+                        res = ((Folder)c).GetEntity(id);
+                        if (res != null)
+                            return res;
+                    }
+                }
+            }
+            return null;
+        }
+
+        //public void()
+
+        public void AddChilds(List<Entity> new_childs)
+        {
+            foreach (var c in new_childs)
+            {
+                AddChilds(c);
+            }
+        }
+        public void AddChilds(Entity c)
+        {
+            c.RemoveMe();
+            childs.Add(c);
+            c.Parent = this;
+        }
+
+        public void DeleteChilds()
+        {
+            childs.Clear();
+        }
         public override void SelectPoints(Point a, Point b, bool selecting)
         {
             foreach (var c in childs)
             {
                 if (c is Folder)
-                    ((Folder)c).SelectPoints(a,b,selecting);
+                    ((Folder)c).SelectPoints(a, b, selecting);
                 else if (c is Layer)
                 {
                     foreach (var s in ((Layer)c).Shapes)
@@ -70,12 +115,12 @@ namespace SIMP
             foreach (var c in childs)
             {
                 if (c is Folder)
-                    ((Folder)c).SelectPoints(a,  selecting);
+                    ((Folder)c).SelectPoints(a, selecting);
                 else if (c is Layer)
                 {
                     foreach (var s in ((Layer)c).Shapes)
                         foreach (var p in s.verticies)
-                            p.Select(a,  selecting);
+                            p.Select(a, selecting);
                 }
             }
         }
@@ -130,7 +175,7 @@ namespace SIMP
             }
         }
 
-        public override  void SelectAll()
+        public override void SelectAll()
         {
             foreach (var c in childs)
             {
@@ -214,7 +259,7 @@ namespace SIMP
             foreach (var c in childs)
             {
                 if (c is Folder)
-                  return  ((Folder)c).GetShape(a);
+                    return ((Folder)c).GetShape(a);
                 else if (c is Layer)
                 {
                     foreach (var s in ((Layer)c).Shapes)
@@ -226,20 +271,25 @@ namespace SIMP
 
             return null;
         }
+        private List<Shape> GetSelectedShapes()
+        {
+            List<Shape> res = new List<Shape>();
+            foreach (var c in childs)
+                res.AddRange(c.SelectedShapes);
+            return res;
+        }
 
         public override void Display(System.Drawing.Graphics field, System.Drawing.Pen pen)
         {
             if (!Visible)
                 return;
             foreach (var c in childs)
-            {
-                if (c is Folder)
-                 ((Folder)c).Display(field, pen);
-                else if (c is Layer)
-                {
-                    ((Layer)c).Display(field,pen);
-                }
-            }
+                c.Display(field, pen);
+        }
+
+        public void RemoveChild(Entity child)
+        {
+            childs.Remove(child);
         }
     }
 }
