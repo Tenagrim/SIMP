@@ -29,8 +29,10 @@
         private void InitializeComponent()
         {
             this.right_panel = new System.Windows.Forms.Panel();
+            this.documentStructureViewer1 = new WindowsFormsControlLibrary1.DocumentStructureViewer();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.b_new_layer = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.b_tool_pointer = new System.Windows.Forms.Button();
             this.b_tool_shape = new System.Windows.Forms.Button();
@@ -55,10 +57,7 @@
             this.unselectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.b_new_layer = new System.Windows.Forms.Button();
-            this.documentStructureViewer1 = new WindowsFormsControlLibrary1.DocumentStructureViewer();
+            this.b_new_folder = new System.Windows.Forms.Button();
             this.right_panel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.central_panel.SuspendLayout();
@@ -68,13 +67,12 @@
             // 
             // right_panel
             // 
+            this.right_panel.Controls.Add(this.b_new_folder);
             this.right_panel.Controls.Add(this.documentStructureViewer1);
             this.right_panel.Controls.Add(this.button6);
             this.right_panel.Controls.Add(this.button5);
-            this.right_panel.Controls.Add(this.button1);
             this.right_panel.Controls.Add(this.b_new_layer);
             this.right_panel.Controls.Add(this.button3);
-            this.right_panel.Controls.Add(this.button2);
             this.right_panel.Controls.Add(this.b_tool_pointer);
             this.right_panel.Controls.Add(this.b_tool_shape);
             this.right_panel.Controls.Add(this.groupBox1);
@@ -88,6 +86,16 @@
             this.right_panel.Size = new System.Drawing.Size(262, 666);
             this.right_panel.TabIndex = 0;
             this.right_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.right_panel_Paint);
+            // 
+            // documentStructureViewer1
+            // 
+            this.documentStructureViewer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.documentStructureViewer1.Location = new System.Drawing.Point(3, 332);
+            this.documentStructureViewer1.Name = "documentStructureViewer1";
+            this.documentStructureViewer1.Size = new System.Drawing.Size(227, 294);
+            this.documentStructureViewer1.TabIndex = 17;
+            this.documentStructureViewer1.OnSetCurrentEntity += new WindowsFormsControlLibrary1.DocumentStructureViewer.DocumentStructureHandler(this.documentStructureViewer1_OnSetCurrentEntity);
+            this.documentStructureViewer1.OnVisibleChanged_ += new WindowsFormsControlLibrary1.DocumentStructureViewer.DocumentStructureHandler(this.documentStructureViewer1_OnVisibleChanged_);
             // 
             // button6
             // 
@@ -108,6 +116,16 @@
             this.button5.Text = "Rotate _";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // b_new_layer
+            // 
+            this.b_new_layer.Image = global::SIMP.Properties.Resources.new_layer2;
+            this.b_new_layer.Location = new System.Drawing.Point(3, 632);
+            this.b_new_layer.Name = "b_new_layer";
+            this.b_new_layer.Size = new System.Drawing.Size(26, 25);
+            this.b_new_layer.TabIndex = 2;
+            this.b_new_layer.UseVisualStyleBackColor = true;
+            this.b_new_layer.Click += new System.EventHandler(this.b_new_layer_Click);
             // 
             // button3
             // 
@@ -322,43 +340,15 @@
             this.deleteSelectedToolStripMenuItem.Text = "Delete selected";
             this.deleteSelectedToolStripMenuItem.Click += new System.EventHandler(this.deleteSelectedToolStripMenuItem_Click);
             // 
-            // button2
+            // b_new_folder
             // 
-            this.button2.Location = new System.Drawing.Point(71, 268);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Clear";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(71, 239);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Delete";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // b_new_layer
-            // 
-            this.b_new_layer.Location = new System.Drawing.Point(72, 210);
-            this.b_new_layer.Name = "b_new_layer";
-            this.b_new_layer.Size = new System.Drawing.Size(75, 23);
-            this.b_new_layer.TabIndex = 2;
-            this.b_new_layer.Text = "New";
-            this.b_new_layer.UseVisualStyleBackColor = true;
-            this.b_new_layer.Click += new System.EventHandler(this.b_new_layer_Click);
-            // 
-            // documentStructureViewer1
-            // 
-            this.documentStructureViewer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.documentStructureViewer1.Location = new System.Drawing.Point(3, 332);
-            this.documentStructureViewer1.Name = "documentStructureViewer1";
-            this.documentStructureViewer1.Size = new System.Drawing.Size(227, 294);
-            this.documentStructureViewer1.TabIndex = 17;
-            this.documentStructureViewer1.OnSetCurrentEntity += new WindowsFormsControlLibrary1.DocumentStructureViewer.DocumentStructureHandler(this.documentStructureViewer1_OnSetCurrentEntity);
-            this.documentStructureViewer1.OnVisibleChanged_ += new WindowsFormsControlLibrary1.DocumentStructureViewer.DocumentStructureHandler(this.documentStructureViewer1_OnVisibleChanged_);
+            this.b_new_folder.Image = global::SIMP.Properties.Resources.add_folder;
+            this.b_new_folder.Location = new System.Drawing.Point(35, 632);
+            this.b_new_folder.Name = "b_new_folder";
+            this.b_new_folder.Size = new System.Drawing.Size(26, 25);
+            this.b_new_folder.TabIndex = 18;
+            this.b_new_folder.UseVisualStyleBackColor = true;
+            this.b_new_folder.Click += new System.EventHandler(this.b_new_folder_Click);
             // 
             // Form1
             // 
@@ -418,10 +408,9 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button b_new_layer;
         private WindowsFormsControlLibrary1.DocumentStructureViewer documentStructureViewer1;
+        private System.Windows.Forms.Button b_new_folder;
     }
 }
 

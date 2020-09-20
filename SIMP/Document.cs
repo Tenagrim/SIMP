@@ -13,33 +13,41 @@ namespace SIMP
         public List<Entity> Entities { get { return entities; } }
         public Entity CurrentEntity { get { return currentEntity; } }
         public List<Point> SelectedPoints { get { return CurrentEntity.SelectedPoints; } }
+        public Entity LastAdded { get{ return last_added; } }
 
         public List<Point> TempPoints { get; set; }
 
         private Entity currentEntity;
         private List<Layer> layers;
         private List<Entity> entities;
+        private Entity last_added;
+        private int last_id;
 
         public Document()
         {
-            //layers = new List<Layer>();
-            //layers.Add(new Layer(1,1));
+            last_id = 1;
             entities = new List<Entity>();
             entities.Add(new Layer(1, 1));
             TempPoints = new List<Point>();
             currentEntity = entities[0];
-            //current_layer = 0;
+
         }
         public void NewLayer()
         {
-            Layer l = new Layer(entities.Count + 1, entities.Count + 1);
+            last_id++;
+            Layer l = new Layer(last_id, last_id);
             entities.Add(l);
             currentEntity = l;
+            last_added = l;
+
         }
         public void NewFolder()
         {
-            Folder f = new Folder();
+            last_id++;
+            Folder f = new Folder(last_id, last_id);
             entities.Add(f);
+            last_added = f;
+            //currentEntity = f;
         }
 
         public void ChangeVisible(int id, bool f)

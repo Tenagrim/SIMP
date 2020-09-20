@@ -80,8 +80,8 @@ namespace SIMP
 
             foreach (var p in shape)
                 p.Draw(main_graphics);
-           // if (lb_layers.SelectedIndex != -1)
-           //    lb_layers.Items[lb_layers.SelectedIndex] = document.CurrentLayer.ToString();
+            // if (lb_layers.SelectedIndex != -1)
+            //    lb_layers.Items[lb_layers.SelectedIndex] = document.CurrentLayer.ToString();
         }
 
         public void Display()
@@ -156,7 +156,11 @@ namespace SIMP
             documentStructureViewer1.AddLayer(document.CurrentEntity.Name, document.CurrentEntity.ID);
             documentStructureViewer1.SetCurrentEntity(document.CurrentEntity.ID);
         }
-
+        private void b_new_folder_Click(object sender, EventArgs e)
+        {
+            document.NewFolder();
+            documentStructureViewer1.AddFolder(document.LastAdded.Name, document.LastAdded.ID);
+        }
         private void UnselectTools()
         {
             if (document.TempPoints.Count != 0)
@@ -418,11 +422,11 @@ namespace SIMP
         }
         private void SaveDocument()
         {
-        
+
         }
         private void LoadDocument()
-        { 
-        
+        {
+
         }
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -444,7 +448,7 @@ namespace SIMP
             switch (tool)
             {
                 case Tool.scale:
-                   // mouse_start_pos = new Point(e.X, e.Y);
+                    // mouse_start_pos = new Point(e.X, e.Y);
                     if (e.Delta > 0)
                         document.ScaleSelected(1.1F, 1.1F);
                     else
@@ -485,11 +489,16 @@ namespace SIMP
             MessageBoxButtons.OK,
       MessageBoxIcon.Information);
         }
-
+        //TODO: folder logic
+        //TODO: delete layes/folders
+        //TODO: merge layers
+        //TODO: split layers
         private void documentStructureViewer1_OnVisibleChanged_(object sender, WindowsFormsControlLibrary1.DocumentStructureArgs args)
         {
             document.ChangeVisible(args.CurrentEntityId, args.flag);
             Display();
         }
+
+
     }
 }

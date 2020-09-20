@@ -48,7 +48,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Name = "DocumentStructureViewer";
-            this.Size = new System.Drawing.Size(227, 290);
+            this.Size = new System.Drawing.Size(227, 291);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DocumentStructureViewer_MouseDown);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DocumentStructureViewer_MouseUp);
             this.ResumeLayout(false);

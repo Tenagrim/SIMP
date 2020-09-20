@@ -57,11 +57,15 @@ namespace WindowsFormsControlLibrary1
         {
             foreach (var c in new_childs)
             {
+                AddChilds(c);
+                c.ChangeSelection();
+            }
+        }
+        public void AddChilds(Panel c)
+        {
                 c.RemoveMe();
                 Childs.Add(c);
                 c.Parent_ = this;
-                c.ChangeSelection();
-            }
         }
 
         public void RemoveChild(Panel child)

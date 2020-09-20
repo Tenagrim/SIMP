@@ -27,6 +27,17 @@ namespace WindowsFormsControlLibrary1
         [Browsable(true), Category("Action")]
         [Description("Invoked when new childs for folder was set")]
         public event DocumentStructureHandler OnVisibleChanged_;
+        [Browsable(true), Category("Action")]
+        [Description("Invoked when new childs for folder was set")]
+        public event DocumentStructureHandler OnDeleteChilds;
+        [Browsable(true), Category("Action")]
+        [Description("Invoked when new childs for folder was set")]
+        public event DocumentStructureHandler OnUnsetChilds;
+        [Browsable(true), Category("Action")]
+        [Description("Invoked when new childs for folder was set")]
+        public event DocumentStructureHandler OnDeleteEntity;
+        [Description("Invoked when new childs for folder was set")]
+        public event DocumentStructureHandler OnDeleteEnties;
 
         public List<Panel> SelectedPanels { get { return (from p in panels where p.IsSelected select p).ToList(); } }
         public Panel CurrentEntity { get { return currentEntity; } }
@@ -170,15 +181,51 @@ namespace WindowsFormsControlLibrary1
             return null;
         }
 
+        private Panel GetPanel(int id)
+        {
+            var sel = from p in panels
+                      where p.ID == id
+                      select p;
+            if (sel.Count() == 0)
+                return null;
+            else
+                return sel.First();
+        }
+
         private void AddChilds(List<Panel> childs, FolderPanel parent)
         {
-            var sel = (from p in childs
-                       select p.ID).ToArray();
+            int[] sel = GetIds(childs);
 
             DocumentStructureArgs args = new DocumentStructureArgs(sel, -1, parent.ID, false);
             parent.AddChilds(childs);
             if (OnAddChilds != null)
                 OnAddChilds.Invoke(this, args);
+        }
+        public void AddChild(int id, int parent_id)
+        {
+            Panel parent = GetPanel(parent_id);
+            Panel child = GetPanel(id);
+            if (parent == null || child == null || !(parent is FolderPanel))
+                throw new ArgumentException();
+            ((FolderPanel)parent).AddChilds(child);
+        }
+
+        public void UnsetChilds(List<Panel> childs)
+        {
+            foreach (var c in childs)
+            {
+                c.RemoveMe();
+                c.Parent_ = null;
+                c.ChangeSelection();
+            }
+
+            if (OnUnsetChilds != null)
+            {
+                var child_ids = (from c in childs
+                                 select c.ID).ToArray();
+                DocumentStructureArgs args = new DocumentStructureArgs(child_ids, -1, -1, false);
+                OnUnsetChilds.Invoke(this, args);
+            }
         }
 
         public void RemovePanel(Panel remove)
@@ -217,6 +264,84 @@ namespace WindowsFormsControlLibrary1
             }
         }
 
+        public void ClearPanel()
+        {
+            panels.Clear();
+            panel1.Controls.Clear();
+        }
+
+        public void DeletePanel(int id)
+        {
+            Panel del = GetPanel(id);
+            if (del == null)
+                return;
+            DeletePanel(del);
+        }
+        private void DeletePanel(Panel del)
+        {
+            if (del is FolderPanel)
+                DeleteChilds(del.ID);
+
+            panels.Remove(del);
+            panel1.Controls.Remove(del);
+            del.RemoveMe();
+            del.Dispose();
+            UpdateList();
+            DocumentStructureArgs args = new DocumentStructureArgs(null, del.ID, -1, false);
+            if (OnDeleteEntity != null)
+                OnDeleteEntity.Invoke(this, args);
+        }
+
+
+
+        public void DeleteSelected()
+        {
+            if (SelectedPanels.Count == 0)
+                return;
+
+            int[] selected = GetIds(SelectedPanels);
+
+            DocumentStructureArgs args = new DocumentStructureArgs(selected, -1, -1, false);
+            foreach (var p in SelectedPanels)
+                DeletePanel(p);
+            if (OnDeleteEnties != null)
+                OnDeleteEnties.Invoke(this, args);
+
+        }
+
+        private int[] GetIds(List<Panel> list)
+        {
+            return (from p in list
+                       select p.ID).ToArray();
+        }
+
+        private void DeleteChilds(int id)
+        {
+            List<Panel> childs = GetChilds(id);
+            var child_ids = (from c in childs
+                             select c.ID).ToArray();
+            if (childs == null)
+                return;
+            DocumentStructureArgs args = new DocumentStructureArgs(child_ids, id, -1, false);
+
+            foreach (var c in childs)
+            {
+                panels.Remove(c);
+                panel1.Controls.Remove((Control)c);
+                c.Dispose();
+            }
+            if (OnDeleteChilds != null)
+                OnDeleteChilds.Invoke(this, args);
+        }
+
+        private List<Panel> GetChilds(int id)
+        {
+            Panel parent = GetPanel(id);
+            if (!(parent is FolderPanel))
+                return null;
+            else
+                return ((FolderPanel)parent).Childs;
+        }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -235,10 +360,12 @@ namespace WindowsFormsControlLibrary1
             Panel parent = GetPanel(mouse_end_pos);
 
             List<Panel> childs = SelectedPanels;
-            if (parent != null && childs.Count != 0 && parent is FolderPanel && !parent.IsSelected)
+            if ( childs.Count != 0 )
             {
-                AddChilds(childs, (FolderPanel)parent);
-                //UpdateList();
+                if (parent != null && parent is FolderPanel && !parent.IsSelected)
+                    AddChilds(childs, (FolderPanel)parent);
+                else
+                    UnsetChilds(childs);
                 UpdateList();
             }
         }
@@ -252,7 +379,5 @@ namespace WindowsFormsControlLibrary1
         {
 
         }
-
-
     }
 }
