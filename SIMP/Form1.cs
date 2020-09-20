@@ -8,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Input;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SIMP
 {
@@ -33,9 +34,6 @@ namespace SIMP
         scale,
         rotate
     }
-
-    delegate void procedure();
-
     public partial class Form1 : Form
     {
         private Graphics main_graphics;
@@ -44,14 +42,8 @@ namespace SIMP
         private Document document;
         private Pen pen;
         private Keyboard keyboard;
-
-        //private List<Point> shape;
-
         private Point mouse_start_pos;
         private Point mouse_end_pos;
-
-        private event procedure ToolChanged;
-
         public Form1()
         {
             InitializeComponent();
@@ -66,13 +58,11 @@ namespace SIMP
 
             document = new Document();
         }
-
         private void Form1_Shown(object sender, EventArgs e)
         {
             UpdateLayersPanel();
             Display();
         }
-
         public void Update_view()
         {
             main_graphics.Clear(Color.Black);
@@ -83,13 +73,11 @@ namespace SIMP
             // if (lb_layers.SelectedIndex != -1)
             //    lb_layers.Items[lb_layers.SelectedIndex] = document.CurrentLayer.ToString();
         }
-
         public void Display()
         {
             Update_view();
             main_viewport.Refresh();
         }
-
         private void main_viewport_MouseClick(object sender, MouseEventArgs e)
         {
             //if (e.Button == MouseButtons.Left)
@@ -106,12 +94,10 @@ namespace SIMP
             //    }
             //Display();
         }
-
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
 
         }
-
         private void UpdateLayersPanel()
         {
             foreach (var e in document.Entities)
@@ -131,7 +117,6 @@ namespace SIMP
         //{
         //    return base.ProcessCmdKey(ref msg, keyData);
         //}
-
         private void DrawSelectRect(float x, float y, float width, float height)
         {
             Pen select_pen = new Pen(Color.White, 1.0F);
@@ -149,7 +134,6 @@ namespace SIMP
             main_graphics.DrawRectangle(select_pen, x, y, width, height);
             select_pen.Dispose();
         }
-
         private void b_new_layer_Click(object sender, EventArgs e)
         {
             document.NewLayer();
@@ -162,13 +146,13 @@ namespace SIMP
             document.NewFolder();
             documentStructureViewer1.AddFolder(document.LastAdded.Name, document.LastAdded.ID);
         }
-
         private void b_delete_selected_layers_Click(object sender, EventArgs e)
         {
             document.DeleteEntity(documentStructureViewer1.SelectedIds);
             documentStructureViewer1.DeleteSelected();
             Display();
         }
+        #region toool selection
         private void UnselectTools()
         {
             if (document.TempPoints.Count != 0)
@@ -186,35 +170,30 @@ namespace SIMP
             button3.Text = "Scale _";
             button5.Text = "Rotate _";
         }
-
         private void b_tool_select_Click(object sender, EventArgs e)
         {
             tool = Tool.select;
             UnselectTools();
             b_tool_select.Text = "Select ";
         }
-
         private void b_tool_move_Click(object sender, EventArgs e)
         {
             tool = Tool.move;
             UnselectTools();
             b_tool_move.Text = "Move ";
         }
-
         private void b_tool_line_Click(object sender, EventArgs e)
         {
             tool = Tool.line;
             UnselectTools();
             b_tool_line.Text = "Line ";
         }
-
         private void button4_Click(object sender, EventArgs e)
         {
             tool = Tool.formula;
             UnselectTools();
             button4.Text = "Formula ";
         }
-
         private void b_tool_shape_Click(object sender, EventArgs e)
         {
             UnselectTools();
@@ -227,21 +206,19 @@ namespace SIMP
             tool = Tool.pointer;
             b_tool_pointer.Text = "Pointer ";
         }
-
         private void button3_Click_1(object sender, EventArgs e)
         {
             UnselectTools();
             tool = Tool.scale;
             button3.Text = "Scale ";
         }
-
         private void button5_Click(object sender, EventArgs e)
         {
             UnselectTools();
             tool = Tool.rotate;
             button5.Text = "Rotate ";
         }
-
+        #endregion
         private void main_viewport_MouseDown(object sender, MouseEventArgs e)
         {
             if (state == State.idle && tool == Tool.select)
@@ -300,7 +277,6 @@ namespace SIMP
                 Display();
             }
         }
-
         private void main_viewport_MouseMove(object sender, MouseEventArgs e)
         {
             if (tool == Tool.select && (state == State.select_points || state == State.select_shapes))
@@ -330,7 +306,6 @@ namespace SIMP
 
             }
         }
-
         private void main_viewport_MouseUp(object sender, MouseEventArgs e)
         {
             if (tool == Tool.select)
@@ -417,22 +392,45 @@ namespace SIMP
             document.DeleteSelected();
             Display();
         }
-        private void SaveDocument()
+        private void SaveDocument(string filename)
         {
-//TODO: Save
+            FileStream fs = new FileStream(filename, FileMode.OpenOrCreate);
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(fs, document);
+            fs.Close();
         }
-        private void LoadDocument()
+        private void LoadDocument(string filename)
         {
-//TODO:Load
+            Document res;
+            FileStream fs = new FileStream(filename, FileMode.Open);
+            BinaryFormatter bf = new BinaryFormatter();
+            res = (Document)bf.Deserialize(fs);
+            fs.Close();
+            document = res;
+            SyncUi();
         }
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e) // Save file dialog
         {
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                string s = saveFileDialog1.FileName;
+                string filename = saveFileDialog1.FileName;
+                SaveDocument(filename);
             }
         }
-
+        private void openToolStripMenuItem_Click(object sender, EventArgs e) // Open file dialog
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filename = openFileDialog1.FileName;
+                LoadDocument(filename);
+                Display();
+            }
+        }
+        private void SyncUi()
+        {
+            documentStructureViewer1.ClearPanel();
+            document.SyncUi(documentStructureViewer1);
+        }
         private void button6_Click(object sender, EventArgs e)
         {
             Display();
@@ -476,8 +474,8 @@ namespace SIMP
         }
         //TODO: merge layers
         //TODO: split layers
-        //TODO: SyncUi
         //TODO: rename folders/layers
+        //TODO: Duplicate shapes
         private void documentStructureViewer1_OnVisibleChanged_(object sender, WindowsFormsControlLibrary1.DocumentStructureArgs args)
         {
             document.ChangeVisible(args.CurrentEntityId, args.flag);
@@ -493,6 +491,21 @@ namespace SIMP
         {
             document.UnsetChilds(args.SelectedIds);
             Display();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            documentStructureViewer1.ClearPanel();
+        }
+
+        private void cb_debug_CheckedChanged(object sender, EventArgs e)
+        {
+            p_debug_panel.Visible = cb_debug.Checked;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SyncUi();
         }
     }
 }

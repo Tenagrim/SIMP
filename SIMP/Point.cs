@@ -17,9 +17,6 @@ namespace SIMP
         public bool Selected { get; set; }
         public PointF PointF { get { return new PointF((float)x, (float)y); } }
         public Shape Parent { get; set; }
-
-
-
         public Point(float x, float y, bool selected) : this(x, y)
         {
             Selected = selected;

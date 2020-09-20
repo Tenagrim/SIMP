@@ -6,23 +6,20 @@ using System.Threading.Tasks;
 
 namespace SIMP
 {
+    [Serializable]
     class Document
     {
         //public List<Layer> Layers { get { return layers; } }
-
         public List<Entity> Entities { get { return entities; } }
         public Entity CurrentEntity { get { return currentEntity; } }
         public List<Point> SelectedPoints { get { return CurrentEntity.SelectedPoints; } }
         public List<Shape> SelectedShapes { get { return GetSelectedShapes(); } }
         public Entity LastAdded { get { return last_added; } }
-
         public List<Point> TempPoints { get; set; }
-
         private Entity currentEntity;
         private List<Entity> entities;
         private Entity last_added;
         private int last_id;
-
         public Document()
         {
             last_id = 1;
@@ -170,7 +167,6 @@ namespace SIMP
             Entity ent = GetEntity(id);
             DeleteEntity(ent);
         }
-
         private void DeleteEntity(Entity ent)
         {
             if (ent != null)
@@ -183,7 +179,6 @@ namespace SIMP
                     ((Folder)ent).DeleteChilds();
             }
         }
-
         private void DeleteChilds(int id)
         {
             Entity ent = GetEntity(id);
@@ -191,7 +186,6 @@ namespace SIMP
                 return;
             ((Folder)ent).DeleteChilds();
         }
-
         public void AddChilds(int parent_id, int[] new_childs)
         {
             Entity parent = GetEntity(parent_id);
@@ -205,7 +199,6 @@ namespace SIMP
             foreach (var e in ents)
                 entities.Remove(e);
         }
-
         private List<Shape> GetSelectedShapes()
         {
             List<Shape> res = new List<Shape>();
@@ -249,7 +242,6 @@ namespace SIMP
                 TempPoints.Clear();
             }
         }
-
         public void AddShape(Shape shape)
         {
             if (TempPoints.Count == 0)
@@ -271,6 +263,41 @@ namespace SIMP
         public void center(System.Drawing.Graphics f)
         {
             CurrentEntity.center(f);
+        }
+        public void SyncUi(WindowsFormsControlLibrary1.DocumentStructureViewer dc)
+        {
+            foreach (var e in entities)
+            {
+                if (e is Folder)
+                {
+                    dc.AddFolder(e.Name, e.ID);
+                    SyncFolder(dc, (Folder)e);
+                }
+                else if (e is Layer)
+                {
+                    dc.AddLayer(e.Name, e.ID);
+                }
+            }
+            if (currentEntity != null)
+                dc.SetCurrentEntity(currentEntity.ID);
+            dc.UpdateList();
+        }
+        private void SyncFolder(WindowsFormsControlLibrary1.DocumentStructureViewer dc, Folder folder)
+        {
+            foreach (var e in folder.childs)
+            {
+                if (e is Folder)
+                {
+                    dc.AddFolder(e.Name, e.ID);
+                    dc.AddChild(e.ID, folder.ID);
+                    SyncFolder(dc, (Folder)e);
+                }
+                else if (e is Layer)
+                {
+                    dc.AddLayer(e.Name, e.ID);
+                    dc.AddChild(e.ID, folder.ID);
+                }
+            }
         }
     }
 }

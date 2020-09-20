@@ -7,9 +7,9 @@ using System.Xml.Schema;
 
 namespace SIMP
 {
+    [Serializable]
     class Line : Shape
     {
-
         public string Formula { get { return CalcForm(); } }
         public Line(Layer parent, Point a, Point b) : base(Point.ToList(a, b))
         {
@@ -17,14 +17,12 @@ namespace SIMP
             //Position = new Point(Math.Min(a.x, b.x), Math.Min(a.y, b.y));
             //CalcForm();
         }
-
         public override void Draw(System.Drawing.Graphics field)
         {
             field.DrawLine(pen, verticies[0].x, verticies[0].y, verticies[1].x, verticies[1].y);
             verticies[0].Draw(field);
             verticies[1].Draw(field);
         }
-
         private string CalcForm()
         {
             //string res = "y=";

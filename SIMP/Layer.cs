@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIMP
 {
+    [Serializable]
     class Layer : Entity
     {
         public List<Shape> Shapes { get { return shapes; } }
@@ -35,7 +36,6 @@ namespace SIMP
             Name = "Layer";
             Parent = null;
         }
-
         public Layer(string name, int id) : this()
         {
             Name = name;

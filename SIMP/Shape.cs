@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SIMP
 {
+    [Serializable]
     class Shape
     {
         public List<Point> verticies { get; set; }
@@ -14,11 +16,19 @@ namespace SIMP
         public Point Begin { get { return verticies[0]; } }
         public Matrix Matrix { get { return GetMatrix(); } }
         public Layer Parent { get; set; }
-        public Pen pen { get; set; }
-        public bool Selected { get { return selected; }  }
+        public bool Selected { get { return selected; } }
 
+        [NonSerialized]
+        public Pen pen;
         private bool is_path;
         private bool selected;
+
+        [OnDeserialized]
+        internal void Reinitialize(StreamingContext context)
+        {
+            pen = new Pen(Color.White, 2.0F);
+        }
+
         public Shape(Layer parent, List<Point> verts, bool is_path) : this(verts)
         {
             this.is_path = is_path;

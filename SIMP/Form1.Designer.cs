@@ -60,11 +60,17 @@
             this.deleteSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.layerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.button1 = new System.Windows.Forms.Button();
+            this.cb_debug = new System.Windows.Forms.CheckBox();
+            this.p_debug_panel = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
             this.right_panel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.central_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.main_viewport)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.p_debug_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // right_panel
@@ -265,6 +271,7 @@
             // 
             // central_panel
             // 
+            this.central_panel.Controls.Add(this.p_debug_panel);
             this.central_panel.Controls.Add(this.main_viewport);
             this.central_panel.Location = new System.Drawing.Point(12, 27);
             this.central_panel.Name = "central_panel";
@@ -310,22 +317,23 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -370,11 +378,56 @@
             this.layerToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.layerToolStripMenuItem.Text = "Layer";
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(68, 23);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "Clear lp";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // cb_debug
+            // 
+            this.cb_debug.AutoSize = true;
+            this.cb_debug.Location = new System.Drawing.Point(866, 689);
+            this.cb_debug.Name = "cb_debug";
+            this.cb_debug.Size = new System.Drawing.Size(15, 14);
+            this.cb_debug.TabIndex = 21;
+            this.cb_debug.UseVisualStyleBackColor = true;
+            this.cb_debug.CheckedChanged += new System.EventHandler(this.cb_debug_CheckedChanged);
+            // 
+            // p_debug_panel
+            // 
+            this.p_debug_panel.Controls.Add(this.button2);
+            this.p_debug_panel.Controls.Add(this.button1);
+            this.p_debug_panel.Location = new System.Drawing.Point(384, 3);
+            this.p_debug_panel.Name = "p_debug_panel";
+            this.p_debug_panel.Size = new System.Drawing.Size(192, 247);
+            this.p_debug_panel.TabIndex = 22;
+            this.p_debug_panel.Visible = false;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(12, 41);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(68, 23);
+            this.button2.TabIndex = 21;
+            this.button2.Text = "Restore lp";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(882, 705);
+            this.Controls.Add(this.cb_debug);
             this.Controls.Add(this.central_panel);
             this.Controls.Add(this.right_panel);
             this.Controls.Add(this.menuStrip1);
@@ -394,6 +447,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.main_viewport)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.p_debug_panel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -433,6 +487,11 @@
         private System.Windows.Forms.Button b_new_folder;
         private System.Windows.Forms.Button b_delete_selected_layers;
         private System.Windows.Forms.ToolStripMenuItem layerToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox cb_debug;
+        private System.Windows.Forms.Panel p_debug_panel;
+        private System.Windows.Forms.Button button2;
     }
 }
 

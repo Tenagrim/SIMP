@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SIMP
 {
-    abstract class Entity
+    [Serializable]
+    class Entity
     {
         public bool Visible { get; set; }
         public int ID { get { return id; } }

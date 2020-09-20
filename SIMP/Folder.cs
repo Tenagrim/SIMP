@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace SIMP
 {
+    [Serializable]
     class Folder : Entity
     {
         public List<Entity> childs;
