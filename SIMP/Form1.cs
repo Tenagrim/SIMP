@@ -474,10 +474,10 @@ namespace SIMP
             MessageBoxButtons.OK,
       MessageBoxIcon.Information);
         }
-
-        //TODO: delete layes/folders
         //TODO: merge layers
         //TODO: split layers
+        //TODO: SyncUi
+        //TODO: rename folders/layers
         private void documentStructureViewer1_OnVisibleChanged_(object sender, WindowsFormsControlLibrary1.DocumentStructureArgs args)
         {
             document.ChangeVisible(args.CurrentEntityId, args.flag);
