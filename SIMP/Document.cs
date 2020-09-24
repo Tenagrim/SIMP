@@ -15,11 +15,20 @@ namespace SIMP
         public List<Point> SelectedPoints { get { return CurrentEntity.SelectedPoints; } }
         public List<Shape> SelectedShapes { get { return GetSelectedShapes(); } }
         public Entity LastAdded { get { return last_added; } }
+        public Projection Projection { get; set; }
+
+        public Point ViewPortSize { get; set; }
         public List<Point> TempPoints { get; set; }
         private Entity currentEntity;
         private List<Entity> entities;
         private Entity last_added;
         private int last_id;
+
+        public Document(Point VewSize) : this()
+        {
+            ViewPortSize = VewSize;
+            Projection = new Projection(ViewPortSize);
+        }
         public Document()
         {
             last_id = 1;
@@ -219,7 +228,7 @@ namespace SIMP
                 return;
             System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.White, 2.0F);
             pen.DashStyle = System.Drawing.Drawing2D.DashStyle.DashDotDot;
-            Shape.DrawAsShape(field, TempPoints, pen);
+            Shape.DrawAsShape(Projection, field, TempPoints, pen);
             pen.Dispose();
         }
         public void AddShape(bool is_path = false)
@@ -244,16 +253,16 @@ namespace SIMP
         }
         public void AddShape(Shape shape)
         {
-            if (TempPoints.Count == 0)
-                return;
+ //           if (TempPoints.Count == 0)
+ //               return;
             if (CurrentEntity is Layer)
                 ((Layer)CurrentEntity).AddShape(shape);
-            TempPoints = new List<Point>();
+ //           TempPoints = new List<Point>();
         }
         public void Display(System.Drawing.Graphics field, System.Drawing.Pen pen)
         {
             foreach (var e in entities)
-                e.Display(field, pen);
+                e.Display(field, pen, Projection);
             DisplayTempPoints(field);
         }
         public void ClearTempVerticies()

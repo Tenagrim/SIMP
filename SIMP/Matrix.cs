@@ -24,12 +24,13 @@ namespace SIMP
 
         public Matrix(List<Point> points)
         {
-            matrix = new float[points.Count, 3];
+            matrix = new float[points.Count, 4];
             for (int i = 0; i < points.Count; i++)
             {
                 matrix[i, 0] = points[i].x;
                 matrix[i, 1] = points[i].y;
                 matrix[i, 2] = points[i].z;
+                matrix[i, 3] = 1;
             }
 
         }
@@ -55,29 +56,33 @@ namespace SIMP
             return new Matrix(res);
         }
 
-        public static Matrix Scale(float a, float d)
+        public static Matrix Scale(float Dx, float Dy, float Dz =1)
         {
-            float[,] res = new float[3, 3] {
-                { a, 0, 0 },
-                { 0, d, 0 },
-                { 0, 0, 1 } };
+            float[,] res = new float[4, 4] {
+                { Dx, 0, 0, 0 },
+                { 0, Dy, 0, 0 },
+                { 0, 0, Dz, 0 },
+                { 0, 0, 0, 1 } };
 
             return new Matrix(res);
         }
-        public static Matrix Translate(float m, float n)
+        public static Matrix Translate(float Dx, float Dy, float Dz = 0)
         {
-            float[,] res = new float[3, 3] {
-                { 1, 0, 0 },
-                { 0, 1, 0 },
-                { m, n, 1 } };
+            float[,] res = new float[4, 4] {
+                { 1,  0,  0,   0 },
+                { 0,  1,  0,   0 },
+                { 0,  0,  1,   0},
+                { Dx, Dy, Dz,  1 } };
 
             return new Matrix(res);
         }
 
-        public static Matrix Rotate(Point pivot, float angle)
+        public static Matrix Rotate(Point pivot, float angle_F, float angle_T = 0)
         {
-            float cosT = (float)Math.Cos(angle);
-            float sinT = (float)Math.Sin(angle);
+            float cosT = (float)Math.Cos(angle_T);
+            float sinT = (float)Math.Sin(angle_T);
+            float cosF = (float)Math.Cos(angle_F);
+            float sinF = (float)Math.Sin(angle_F);
             float[,] res = new float[3, 3] {
                 { cosT, sinT, 0 },
                 { -sinT, cosT, 0 },

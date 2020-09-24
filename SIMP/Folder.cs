@@ -222,7 +222,7 @@ namespace SIMP
                 return false;
 
             Point center1 = Shape.GetCenter(points);
-            Matrix scale = Matrix.Scale(a, d);
+            Matrix scale = Matrix.Scale(a, d,1);
             Shape.Transform(points, scale);
             Point center2 = Shape.GetCenter(points);
             Matrix translate = Matrix.Translate(center1.x - center2.x, center1.y - center2.y);
@@ -280,12 +280,12 @@ namespace SIMP
             return res;
         }
 
-        public override void Display(System.Drawing.Graphics field, System.Drawing.Pen pen)
+        public override void Display(System.Drawing.Graphics field, System.Drawing.Pen pen, Projection proj)
         {
             if (!Visible)
                 return;
             foreach (var c in childs)
-                c.Display(field, pen);
+                c.Display(field, pen, proj);
         }
 
         public void RemoveChild(Entity child)

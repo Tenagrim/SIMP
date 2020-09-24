@@ -51,27 +51,34 @@ namespace SIMP
                 Parent.RemoveChild(this);
         }
 
-        public virtual void Draw(Graphics field)
+        public virtual void Draw(Graphics field, Projection proj)
         {
             /*
             var pointfs = from v in verticies
                           select (v + Position).PointF;
             */
             //field.DrawClosedCurve(pen, pointfs.ToArray());
-            DrawAsShape(field, verticies, pen, is_path);
+            DrawAsShape(proj, field, verticies, pen, is_path);
         }
 
-        public static void DrawAsShape(Graphics field, List<Point> verticies, Pen pen, bool is_path = false)
+        public static void DrawAsShape(Projection proj, Graphics field, List<Point> verticies, Pen pen, bool is_path = false)
         {
-            for (int i = 1; i < verticies.Count; i++)
+            Matrix data = new Matrix(verticies);
+            //Matrix transform = proj.Matrix;
+            //Matrix res = data * transform;
+            Matrix res = proj.Project(data);
+
+            for (int i = 1; i < res.Rows; i++)
             {
-                field.DrawLine(pen, verticies[i - 1].x, verticies[i - 1].y, verticies[i].x, verticies[i].y);
-                verticies[i-1].Draw(field);
+                field.DrawLine(pen, res._Matrix[i-1,0], res._Matrix[i -1, 1], res._Matrix[i , 0], res._Matrix[i , 1]);
+                //verticies[i-1].Draw(field);
+                Point.Draw(field, res._Matrix[i - 1, 0], res._Matrix[i - 1, 1], verticies[i - 1].Selected);
             }
-            verticies[verticies.Count-1].Draw(field);
+            //verticies[verticies.Count-1].Draw(field);
+            Point.Draw(field, res._Matrix[res.Rows - 1, 0], res._Matrix[res.Rows - 1, 1], verticies[res.Rows - 1].Selected);
 
             if (is_path)
-                field.DrawLine(pen, verticies[0].x, verticies[0].y, verticies[verticies.Count - 1].x, verticies[verticies.Count - 1].y);
+                field.DrawLine(pen, res._Matrix[0,0] , res._Matrix[0, 1] , res._Matrix[res.Rows-1, 0] , res._Matrix[res.Rows - 1, 1] );
         }
 
         public void Select(bool selecting = true)
@@ -92,21 +99,22 @@ namespace SIMP
 
         private Matrix GetMatrix()
         {
-            float[,] res = new float[verticies.Count, 3];
+            float[,] res = new float[verticies.Count, 4];
             for (int i = 0; i < verticies.Count; i++)
             {
                 res[i, 0] = verticies[i].x;
                 res[i, 1] = verticies[i].y;
                 res[i, 2] = verticies[i].z;
+                res[i, 3] = 1;
             }
             return new Matrix(res);
         }
 
 
 
-        public void Scale(float a, float d)
+        public void Scale(float Dx, float Dy, float Dz = 1 )
         {
-            Transform(verticies, Matrix.Scale(a, d));
+            Transform(verticies, Matrix.Scale(Dx, Dy, Dz));
         }
 
         public static Point GetCenter(List<Point> verticies)

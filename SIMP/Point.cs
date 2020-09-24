@@ -17,9 +17,10 @@ namespace SIMP
         public bool Selected { get; set; }
         public PointF PointF { get { return new PointF((float)x, (float)y); } }
         public Shape Parent { get; set; }
-        public Point(float x, float y, bool selected) : this(x, y)
+        public Point(float x, float y,  bool selected , float z = 0) : this(x, y)
         {
             Selected = selected;
+            this.z = z;
         }
         public Point(float x, float y, int state) : this(x, y)
         {
@@ -34,7 +35,7 @@ namespace SIMP
         {
             x = 0;
             y = 0;
-            z = 1;
+            z = 0;
             state = 0;
             Selected = false;
             Parent = null;
@@ -79,6 +80,19 @@ namespace SIMP
             }
         }
 
+        public static void Draw(Graphics field, float x, float y, bool selected)
+        {
+            if (selected)
+            {
+
+                field.FillRectangle(Brushes.White, x - 3, y - 3, 7, 7);
+                field.FillRectangle(Brushes.Black, x - 1, y - 1, 3, 3);
+            }
+            else
+            {
+                field.FillRectangle(Brushes.White, x, y, 1, 1);
+            }
+        }
         public static List<Point> ToList(Point a, Point b)
         {
             List<Point> res = new List<Point>();
@@ -86,6 +100,7 @@ namespace SIMP
             res.Add(b);
             return res;
         }
+
 
         public static float Dist(Point a, Point b)
         {

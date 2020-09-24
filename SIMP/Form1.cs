@@ -56,7 +56,7 @@ namespace SIMP
             pen = new Pen(Color.White, 2.0F);
             keyboard = new Keyboard();
 
-            document = new Document();
+            document = new Document(new Point(main_viewport.Size.Width, main_viewport.Size.Height));
         }
         private void Form1_Shown(object sender, EventArgs e)
         {
@@ -506,6 +506,111 @@ namespace SIMP
         private void button2_Click(object sender, EventArgs e)
         {
             SyncUi();
+        }
+
+        private void hScrollBar1_ValueChanged(object sender, EventArgs e)
+        {
+            document.Projection.Phi = (hScrollBar1.Value - 450) / 100.0F;
+            textBox1.Text = $"{document.Projection.Phi}";
+            textBox2.Text = $"{hScrollBar1.Value}";
+            Display();
+        }
+
+        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+            document.Projection.Thetha= (vScrollBar1.Value - 450) / 100.0F;
+            //textBox1.Text = $"{document.Projection.Phi}";
+            //textBox2.Text = $"{hScrollBar1.Value}";
+            Display();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            document.Projection.Perspective = checkBox1.Checked;
+                numericUpDown1.Visible = checkBox1.Checked;
+            Display();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            document.Projection.Zc = (int)numericUpDown1.Value;
+            Display();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            List<Point> points = new List<Point>();
+            points.Add(new Point(0, 0,false, 400)); //e
+            points.Add(new Point(150,0 , false, 400)); // A
+            points.Add(new Point(150,150 , false, 400)); // B
+            points.Add(new Point(250,150 , false, 400)); // C
+            points.Add(new Point(250,0 , false, 400));  // D
+            points.Add(new Point(400,0 , false, 400));  // F
+            points.Add(new Point(400,0 , false, 0));  // H
+            points.Add(new Point(400,250 , false, 0));  // K
+            points.Add(new Point(400,500 , false, 200));  // O
+            points.Add(new Point(400,250 , false, 400));  // N
+            points.Add(new Point(0, 250, false, 400)); //M
+            points.Add(new Point(0, 250, false, 0)); //J
+            points.Add(new Point(0, 500, false, 200)); //P
+            points.Add(new Point(400, 500, false, 200));  // O
+            points.Add(new Point(0, 500, false, 200)); //P
+            points.Add(new Point(0, 250, false, 400)); //M
+            points.Add(new Point(0, 0, false, 400)); //e
+            points.Add(new Point(0, 0, false, 0)); //G
+            points.Add(new Point(400, 0, false, 0));  // H
+            points.Add(new Point(400, 250, false, 0));  // K
+
+            document.AddShape(new Shape(points));
+
+
+            points = new List<Point>();
+            points.Add(new Point(0, 0, false, 0)); //G
+            points.Add(new Point(0, 250, false, 0)); //G
+            points.Add(new Point(400, 250, false, 0)); //G
+            document.AddShape(new Shape(points));
+            points = new List<Point>();
+            points.Add(new Point(400, 0, false, 400)); //G
+            points.Add(new Point(400, 250, false, 400)); //G
+            document.AddShape(new Shape(points));
+
+            Display();
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            document.Projection.PosX = document.Projection.PosX + 30;
+            Display();
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            document.Projection.PosX = document.Projection.PosX - 30;
+            Display();
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            document.Projection.PosY = document.Projection.PosY + 30;
+            Display();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            document.Projection.PosY = document.Projection.PosY - 30;
+            Display();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            document.Projection.PosX = document.Projection.PosX + 30;
+            Display();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            document.Projection.PosX = document.Projection.PosX - 30;
+            Display();
         }
     }
 }

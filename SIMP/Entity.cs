@@ -72,7 +72,7 @@ namespace SIMP
             return null;
         }
 
-        public virtual void Display(System.Drawing.Graphics field, System.Drawing.Pen pen)
+        public virtual void Display(System.Drawing.Graphics field, System.Drawing.Pen pen, Projection proj)
         {
         }
     }

@@ -88,12 +88,12 @@ namespace SIMP
             return null;
         }
 
-        public override void Display(Graphics field, Pen pen)
+        public override void Display( Graphics field, Pen pen, Projection proj)
         {
             if (!Visible)
                 return;
             foreach (var s in shapes)
-                s.Draw(field);
+                s.Draw( field, proj);
         }
 
         public override void SelectPoints(Point a, Point b, bool selecting)

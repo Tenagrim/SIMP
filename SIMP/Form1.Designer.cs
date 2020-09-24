@@ -47,6 +47,9 @@
             this.b_tool_move = new System.Windows.Forms.Button();
             this.b_tool_select = new System.Windows.Forms.Button();
             this.central_panel = new System.Windows.Forms.Panel();
+            this.p_debug_panel = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.main_viewport = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,16 +64,29 @@
             this.layerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
             this.cb_debug = new System.Windows.Forms.CheckBox();
-            this.p_debug_panel = new System.Windows.Forms.Panel();
-            this.button2 = new System.Windows.Forms.Button();
+            this.left_panel = new System.Windows.Forms.Panel();
+            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
             this.right_panel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.central_panel.SuspendLayout();
+            this.p_debug_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.main_viewport)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            this.p_debug_panel.SuspendLayout();
+            this.left_panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // right_panel
@@ -90,7 +106,7 @@
             this.right_panel.Controls.Add(this.b_tool_line);
             this.right_panel.Controls.Add(this.b_tool_move);
             this.right_panel.Controls.Add(this.b_tool_select);
-            this.right_panel.Location = new System.Drawing.Point(608, 27);
+            this.right_panel.Location = new System.Drawing.Point(851, 30);
             this.right_panel.Name = "right_panel";
             this.right_panel.Size = new System.Drawing.Size(262, 666);
             this.right_panel.TabIndex = 0;
@@ -273,10 +289,41 @@
             // 
             this.central_panel.Controls.Add(this.p_debug_panel);
             this.central_panel.Controls.Add(this.main_viewport);
-            this.central_panel.Location = new System.Drawing.Point(12, 27);
+            this.central_panel.Location = new System.Drawing.Point(266, 30);
             this.central_panel.Name = "central_panel";
             this.central_panel.Size = new System.Drawing.Size(579, 666);
             this.central_panel.TabIndex = 1;
+            // 
+            // p_debug_panel
+            // 
+            this.p_debug_panel.Controls.Add(this.button7);
+            this.p_debug_panel.Controls.Add(this.button2);
+            this.p_debug_panel.Controls.Add(this.button1);
+            this.p_debug_panel.Location = new System.Drawing.Point(384, 3);
+            this.p_debug_panel.Name = "p_debug_panel";
+            this.p_debug_panel.Size = new System.Drawing.Size(192, 247);
+            this.p_debug_panel.TabIndex = 22;
+            this.p_debug_panel.Visible = false;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(12, 41);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(68, 23);
+            this.button2.TabIndex = 21;
+            this.button2.Text = "Restore lp";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(68, 23);
+            this.button1.TabIndex = 20;
+            this.button1.Text = "Clear lp";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // main_viewport
             // 
@@ -300,7 +347,7 @@
             this.layerToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(882, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1180, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -317,21 +364,21 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.saveAsToolStripMenuItem.Text = "Save as";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -382,16 +429,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(68, 23);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Clear lp";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // cb_debug
             // 
             this.cb_debug.AutoSize = true;
@@ -402,31 +439,171 @@
             this.cb_debug.UseVisualStyleBackColor = true;
             this.cb_debug.CheckedChanged += new System.EventHandler(this.cb_debug_CheckedChanged);
             // 
-            // p_debug_panel
+            // left_panel
             // 
-            this.p_debug_panel.Controls.Add(this.button2);
-            this.p_debug_panel.Controls.Add(this.button1);
-            this.p_debug_panel.Location = new System.Drawing.Point(384, 3);
-            this.p_debug_panel.Name = "p_debug_panel";
-            this.p_debug_panel.Size = new System.Drawing.Size(192, 247);
-            this.p_debug_panel.TabIndex = 22;
-            this.p_debug_panel.Visible = false;
+            this.left_panel.Controls.Add(this.button13);
+            this.left_panel.Controls.Add(this.button12);
+            this.left_panel.Controls.Add(this.button11);
+            this.left_panel.Controls.Add(this.button10);
+            this.left_panel.Controls.Add(this.button9);
+            this.left_panel.Controls.Add(this.button8);
+            this.left_panel.Controls.Add(this.numericUpDown1);
+            this.left_panel.Controls.Add(this.checkBox1);
+            this.left_panel.Controls.Add(this.vScrollBar1);
+            this.left_panel.Controls.Add(this.textBox2);
+            this.left_panel.Controls.Add(this.textBox1);
+            this.left_panel.Controls.Add(this.hScrollBar1);
+            this.left_panel.Location = new System.Drawing.Point(0, 30);
+            this.left_panel.Name = "left_panel";
+            this.left_panel.Size = new System.Drawing.Size(260, 666);
+            this.left_panel.TabIndex = 22;
             // 
-            // button2
+            // hScrollBar1
             // 
-            this.button2.Location = new System.Drawing.Point(12, 41);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(68, 23);
-            this.button2.TabIndex = 21;
-            this.button2.Text = "Restore lp";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.hScrollBar1.Location = new System.Drawing.Point(9, 44);
+            this.hScrollBar1.Maximum = 900;
+            this.hScrollBar1.Name = "hScrollBar1";
+            this.hScrollBar1.Size = new System.Drawing.Size(239, 17);
+            this.hScrollBar1.TabIndex = 0;
+            this.hScrollBar1.Value = 450;
+            this.hScrollBar1.ValueChanged += new System.EventHandler(this.hScrollBar1_ValueChanged);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(3, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 1;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(109, 3);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 2;
+            // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Location = new System.Drawing.Point(9, 63);
+            this.vScrollBar1.Maximum = 900;
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 239);
+            this.vScrollBar1.TabIndex = 3;
+            this.vScrollBar1.Value = 450;
+            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(167, 67);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(81, 17);
+            this.checkBox1.TabIndex = 4;
+            this.checkBox1.Text = "perspective";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(167, 94);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(81, 20);
+            this.numericUpDown1.TabIndex = 5;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Visible = false;
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(12, 70);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(87, 23);
+            this.button7.TabIndex = 23;
+            this.button7.Text = "Spawn House";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button8.Location = new System.Drawing.Point(29, 94);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(27, 27);
+            this.button8.TabIndex = 6;
+            this.button8.Text = "←";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // button9
+            // 
+            this.button9.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button9.Location = new System.Drawing.Point(89, 94);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(27, 27);
+            this.button9.TabIndex = 7;
+            this.button9.Text = "→";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button10
+            // 
+            this.button10.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button10.Location = new System.Drawing.Point(58, 63);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(27, 27);
+            this.button10.TabIndex = 8;
+            this.button10.Text = "↑";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // button11
+            // 
+            this.button11.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button11.Location = new System.Drawing.Point(58, 94);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(27, 27);
+            this.button11.TabIndex = 9;
+            this.button11.Text = "↓";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button12
+            // 
+            this.button12.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button12.Location = new System.Drawing.Point(134, 92);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(27, 27);
+            this.button12.TabIndex = 10;
+            this.button12.Text = "↓";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button13
+            // 
+            this.button13.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button13.Location = new System.Drawing.Point(134, 64);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(27, 27);
+            this.button13.TabIndex = 11;
+            this.button13.Text = "↑";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(882, 705);
+            this.ClientSize = new System.Drawing.Size(1180, 705);
+            this.Controls.Add(this.left_panel);
             this.Controls.Add(this.cb_debug);
             this.Controls.Add(this.central_panel);
             this.Controls.Add(this.right_panel);
@@ -444,10 +621,13 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.central_panel.ResumeLayout(false);
+            this.p_debug_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.main_viewport)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.p_debug_panel.ResumeLayout(false);
+            this.left_panel.ResumeLayout(false);
+            this.left_panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -492,6 +672,20 @@
         private System.Windows.Forms.CheckBox cb_debug;
         private System.Windows.Forms.Panel p_debug_panel;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Panel left_panel;
+        private System.Windows.Forms.HScrollBar hScrollBar1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.VScrollBar vScrollBar1;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button8;
     }
 }
 
