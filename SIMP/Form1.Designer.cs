@@ -48,6 +48,7 @@
             this.b_tool_select = new System.Windows.Forms.Button();
             this.central_panel = new System.Windows.Forms.Panel();
             this.p_debug_panel = new System.Windows.Forms.Panel();
+            this.button14 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -79,7 +80,7 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-            this.button14 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
             this.right_panel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.central_panel.SuspendLayout();
@@ -297,6 +298,7 @@
             // 
             // p_debug_panel
             // 
+            this.p_debug_panel.Controls.Add(this.button15);
             this.p_debug_panel.Controls.Add(this.button14);
             this.p_debug_panel.Controls.Add(this.button7);
             this.p_debug_panel.Controls.Add(this.button2);
@@ -306,6 +308,16 @@
             this.p_debug_panel.Size = new System.Drawing.Size(192, 247);
             this.p_debug_panel.TabIndex = 22;
             this.p_debug_panel.Visible = false;
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(12, 99);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(75, 23);
+            this.button14.TabIndex = 24;
+            this.button14.Text = "spawn zero";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
             // button7
             // 
@@ -600,15 +612,15 @@
             this.hScrollBar1.Value = 450;
             this.hScrollBar1.ValueChanged += new System.EventHandler(this.hScrollBar1_ValueChanged);
             // 
-            // button14
+            // button15
             // 
-            this.button14.Location = new System.Drawing.Point(12, 99);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(75, 23);
-            this.button14.TabIndex = 24;
-            this.button14.Text = "spawn zero";
-            this.button14.UseVisualStyleBackColor = true;
-            this.button14.Click += new System.EventHandler(this.button14_Click);
+            this.button15.Location = new System.Drawing.Point(12, 129);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(75, 23);
+            this.button15.TabIndex = 25;
+            this.button15.Text = "spawn cube";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
             // Form1
             // 
@@ -699,6 +711,7 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button15;
     }
 }
 

@@ -51,7 +51,7 @@ namespace SIMP
             if(perspective)
              res = new float[,]
             {
-                {cosF,   sinF*sinT,     0,  (sinF*cosF)/ zc },
+                {cosF,   sinF*sinT,     0,  (sinF*cosT)/ zc },
                 {0,      cosT,          0,  -(sinT/zc)},
                 {sinF,   -cosF*sinT,    0,  -((cosF * cosT)/zc) },
                 {0,      0,             0,   1 }
@@ -69,10 +69,19 @@ namespace SIMP
 
         public Matrix Project(Matrix data)
         {
-            Matrix m1 = matrix * SIMP.Matrix.Translate((ViewSize.x / 2+ pos_x), (ViewSize.y / 2 + pos_y), - pos_z) ;
-            Matrix m2 =  data * m1;
-            //Matrix m3 = m2 * SIMP.Matrix.Translate(ViewSize.x / 2 + pos_x, ViewSize.y / 2 + pos_y, pos_z);
-            return m2;
+            if (!perspective)
+            {
+                Matrix m1 = matrix * SIMP.Matrix.Translate((ViewSize.x / 2 + pos_x), (ViewSize.y / 2 + pos_y), -pos_z);
+                Matrix m2 = data * m1;
+                //Matrix m3 = m2 * SIMP.Matrix.Translate(ViewSize.x / 2 + pos_x, ViewSize.y / 2 + pos_y, pos_z);
+                return m2;
+            }
+            else 
+            {
+                Matrix m1 = data * matrix;
+                //Matrix m2 = m1 * SIMP.Matrix.Translate((ViewSize.x / 2 + pos_x), (ViewSize.y / 2 + pos_y), -pos_z);
+                return m1;
+            }
         }
     }
 }

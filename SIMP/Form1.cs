@@ -593,6 +593,39 @@ namespace SIMP
             document.AddShape(new Shape(points));
             Display();
         }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            List<Point> points = new List<Point>();
+            points.Add(new Point(-100, -100, false, -100)); //G
+            points.Add(new Point(-100, 100, false, -100)); //G
+            points.Add(new Point(100, 100, false, -100)); //G
+            points.Add(new Point(100, -100, false, -100)); //G
+            points.Add(new Point(-100, -100, false, -100)); //G
+
+
+            points.Add(new Point(-100, 100, false, -100)); //G
+            points.Add(new Point(-100, 100, false, 100)); //G
+            points.Add(new Point(-100, -100, false, 100)); //G
+            points.Add(new Point(-100, -100, false, -100)); //G
+
+            points.Add(new Point(100, -100, false, -100)); //G
+            points.Add(new Point(100, -100, false, 100)); //G
+            points.Add(new Point(-100, -100, false, 100)); //G
+
+            points.Add(new Point(-100, 100, false, 100)); //G
+            points.Add(new Point(100, 100, false, 100)); //G
+            points.Add(new Point(100, 100, false, -100)); //G
+            points.Add(new Point(100, 100, false, 100)); //G
+            points.Add(new Point(100, -100, false, 100)); //G
+
+
+
+
+
+            document.AddShape(new Shape(points));
+            Display();
+        }
         private void button13_Click(object sender, EventArgs e)
         {
             document.Projection.PosX = document.Projection.PosX + 30;
