@@ -69,10 +69,10 @@ namespace SIMP
 
         public Matrix Project(Matrix data)
         {
-            Matrix m1 = data * SIMP.Matrix.Translate(-(ViewSize.x / 2+ pos_x), -(ViewSize.y / 2 + pos_y), - pos_z) ;
-            Matrix m2 = m1 * matrix;
-            Matrix m3 = m2 * SIMP.Matrix.Translate(ViewSize.x / 2 + pos_x, ViewSize.y / 2 + pos_y, pos_z);
-            return m3;
+            Matrix m1 = matrix * SIMP.Matrix.Translate((ViewSize.x / 2+ pos_x), (ViewSize.y / 2 + pos_y), - pos_z) ;
+            Matrix m2 =  data * m1;
+            //Matrix m3 = m2 * SIMP.Matrix.Translate(ViewSize.x / 2 + pos_x, ViewSize.y / 2 + pos_y, pos_z);
+            return m2;
         }
     }
 }

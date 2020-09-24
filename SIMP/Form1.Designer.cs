@@ -48,6 +48,7 @@
             this.b_tool_select = new System.Windows.Forms.Button();
             this.central_panel = new System.Windows.Forms.Panel();
             this.p_debug_panel = new System.Windows.Forms.Panel();
+            this.button7 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.main_viewport = new System.Windows.Forms.PictureBox();
@@ -66,19 +67,19 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.cb_debug = new System.Windows.Forms.CheckBox();
             this.left_panel = new System.Windows.Forms.Panel();
-            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button11 = new System.Windows.Forms.Button();
-            this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.button14 = new System.Windows.Forms.Button();
             this.right_panel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.central_panel.SuspendLayout();
@@ -296,6 +297,7 @@
             // 
             // p_debug_panel
             // 
+            this.p_debug_panel.Controls.Add(this.button14);
             this.p_debug_panel.Controls.Add(this.button7);
             this.p_debug_panel.Controls.Add(this.button2);
             this.p_debug_panel.Controls.Add(this.button1);
@@ -304,6 +306,16 @@
             this.p_debug_panel.Size = new System.Drawing.Size(192, 247);
             this.p_debug_panel.TabIndex = 22;
             this.p_debug_panel.Visible = false;
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(12, 70);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(87, 23);
+            this.button7.TabIndex = 23;
+            this.button7.Text = "Spawn House";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button2
             // 
@@ -458,50 +470,71 @@
             this.left_panel.Size = new System.Drawing.Size(260, 666);
             this.left_panel.TabIndex = 22;
             // 
-            // hScrollBar1
+            // button13
             // 
-            this.hScrollBar1.Location = new System.Drawing.Point(9, 44);
-            this.hScrollBar1.Maximum = 900;
-            this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(239, 17);
-            this.hScrollBar1.TabIndex = 0;
-            this.hScrollBar1.Value = 450;
-            this.hScrollBar1.ValueChanged += new System.EventHandler(this.hScrollBar1_ValueChanged);
+            this.button13.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button13.Location = new System.Drawing.Point(134, 64);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(27, 27);
+            this.button13.TabIndex = 11;
+            this.button13.Text = "↑";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
-            // textBox1
+            // button12
             // 
-            this.textBox1.Location = new System.Drawing.Point(3, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 1;
+            this.button12.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button12.Location = new System.Drawing.Point(134, 92);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(27, 27);
+            this.button12.TabIndex = 10;
+            this.button12.Text = "↓";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
-            // textBox2
+            // button11
             // 
-            this.textBox2.Location = new System.Drawing.Point(109, 3);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 2;
+            this.button11.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button11.Location = new System.Drawing.Point(58, 94);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(27, 27);
+            this.button11.TabIndex = 9;
+            this.button11.Text = "↓";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
-            // vScrollBar1
+            // button10
             // 
-            this.vScrollBar1.Location = new System.Drawing.Point(9, 63);
-            this.vScrollBar1.Maximum = 900;
-            this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(17, 239);
-            this.vScrollBar1.TabIndex = 3;
-            this.vScrollBar1.Value = 450;
-            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
+            this.button10.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button10.Location = new System.Drawing.Point(58, 63);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(27, 27);
+            this.button10.TabIndex = 8;
+            this.button10.Text = "↑";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
-            // checkBox1
+            // button9
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(167, 67);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(81, 17);
-            this.checkBox1.TabIndex = 4;
-            this.checkBox1.Text = "perspective";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.button9.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button9.Location = new System.Drawing.Point(89, 94);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(27, 27);
+            this.button9.TabIndex = 7;
+            this.button9.Text = "→";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button8
+            // 
+            this.button8.Cursor = System.Windows.Forms.Cursors.Default;
+            this.button8.Location = new System.Drawing.Point(29, 94);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(27, 27);
+            this.button8.TabIndex = 6;
+            this.button8.Text = "←";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // numericUpDown1
             // 
@@ -522,81 +555,60 @@
             this.numericUpDown1.Visible = false;
             this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
-            // button7
+            // checkBox1
             // 
-            this.button7.Location = new System.Drawing.Point(12, 70);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(87, 23);
-            this.button7.TabIndex = 23;
-            this.button7.Text = "Spawn House";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(167, 67);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(81, 17);
+            this.checkBox1.TabIndex = 4;
+            this.checkBox1.Text = "perspective";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // button8
+            // vScrollBar1
             // 
-            this.button8.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button8.Location = new System.Drawing.Point(29, 94);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(27, 27);
-            this.button8.TabIndex = 6;
-            this.button8.Text = "←";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.vScrollBar1.Location = new System.Drawing.Point(9, 63);
+            this.vScrollBar1.Maximum = 900;
+            this.vScrollBar1.Name = "vScrollBar1";
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 239);
+            this.vScrollBar1.TabIndex = 3;
+            this.vScrollBar1.Value = 450;
+            this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             // 
-            // button9
+            // textBox2
             // 
-            this.button9.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button9.Location = new System.Drawing.Point(89, 94);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(27, 27);
-            this.button9.TabIndex = 7;
-            this.button9.Text = "→";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
+            this.textBox2.Location = new System.Drawing.Point(109, 3);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 2;
             // 
-            // button10
+            // textBox1
             // 
-            this.button10.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button10.Location = new System.Drawing.Point(58, 63);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(27, 27);
-            this.button10.TabIndex = 8;
-            this.button10.Text = "↑";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.textBox1.Location = new System.Drawing.Point(3, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 1;
             // 
-            // button11
+            // hScrollBar1
             // 
-            this.button11.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button11.Location = new System.Drawing.Point(58, 94);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(27, 27);
-            this.button11.TabIndex = 9;
-            this.button11.Text = "↓";
-            this.button11.UseVisualStyleBackColor = true;
-            this.button11.Click += new System.EventHandler(this.button11_Click);
+            this.hScrollBar1.Location = new System.Drawing.Point(9, 44);
+            this.hScrollBar1.Maximum = 900;
+            this.hScrollBar1.Name = "hScrollBar1";
+            this.hScrollBar1.Size = new System.Drawing.Size(239, 17);
+            this.hScrollBar1.TabIndex = 0;
+            this.hScrollBar1.Value = 450;
+            this.hScrollBar1.ValueChanged += new System.EventHandler(this.hScrollBar1_ValueChanged);
             // 
-            // button12
+            // button14
             // 
-            this.button12.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button12.Location = new System.Drawing.Point(134, 92);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(27, 27);
-            this.button12.TabIndex = 10;
-            this.button12.Text = "↓";
-            this.button12.UseVisualStyleBackColor = true;
-            this.button12.Click += new System.EventHandler(this.button12_Click);
-            // 
-            // button13
-            // 
-            this.button13.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button13.Location = new System.Drawing.Point(134, 64);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(27, 27);
-            this.button13.TabIndex = 11;
-            this.button13.Text = "↑";
-            this.button13.UseVisualStyleBackColor = true;
-            this.button13.Click += new System.EventHandler(this.button13_Click);
+            this.button14.Location = new System.Drawing.Point(12, 99);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(75, 23);
+            this.button14.TabIndex = 24;
+            this.button14.Text = "spawn zero";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
             // Form1
             // 
@@ -686,6 +698,7 @@
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button14;
     }
 }
 
